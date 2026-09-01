@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>iGet Sync — Order</title>
+
+<style>
+:root{
+  --bg:#f5f7fb;
+  --card:#fff;
+  --text:#111827;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --accent:#111827;
+  --good:#16a34a;
+  --danger:#dc2626;
+  --shadow:0 20px 60px rgba(15,23,42,.08);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+.wrap{max-width:920px;margin:0 auto;padding:28px 16px 60px}
+header{margin-bottom:22px}
+.brand{font-weight:800;font-size:25px;letter-spacing:-.5px}
+.sub{color:var(--muted);margin-top:5px}
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:var(--shadow);
+  margin-bottom:16px;
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+label{font-size:13px;font-weight:700}
+input,select,textarea{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:13px 14px;
+  font:inherit;
+  outline:none;
+  background:#fff;
+}
+input:focus,select:focus,textarea:focus{border-color:#9ca3af}
+textarea{min-height:90px;resize:vertical}
+button{
+  border:0;
+  border-radius:13px;
+  padding:14px 18px;
+  font:inherit;
+  font-weight:800;
+  cursor:pointer;
+}
+.primary{background:var(--accent);color:#fff;width:100%;margin-top:18px}
+.primary:disabled{opacity:.55;cursor:not-allowed}
+.hidden{display:none!important}
+.muted{color:var(--muted)}
+.notice{
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:14px;
+  background:#fafafa;
+  margin-bottom:15px;
+}
+.order-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+  flex-wrap:wrap;
+}
+.order-id{font-weight:900;font-size:21px}
+.badge{
+  display:inline-flex;
+  padding:7px 11px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+  background:#eef2ff;
+}
+.status-good{background:#dcfce7;color:#166534}
+.status-danger{background:#fee2e2;color:#991b1b}
+.status-wait{background:#fef3c7;color:#92400e}
+.price{font-size:26px;font-weight:900;margin:8px 0}
+.qrbox{
+  min-height:300px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px dashed #d1d5db;
+  border-radius:18px;
+  background:#fafafa;
+  margin-top:18px;
+  overflow:hidden;
+}
+.qrbox img{max-width:100%;width:330px;height:auto;display:block}
+.center{text-align:center}
+.timer{font-weight:900}
+.detail{
+  display:grid;
+  grid-template-columns:140px 1fr;
+  gap:8px;
+  font-size:14px;
+}
+.detail div:nth-child(odd){color:var(--muted)}
+.error{color:var(--danger);font-size:13px;margin-top:10px}
+.success{color:var(--good);font-weight:700}
+@media(max-width:650px){
+  .grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+  .detail{grid-template-columns:110px 1fr}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">iGet Sync</div>
+    <div class="sub">Order Service — Secure Payment</div>
+  </header>
+
+  <section id="formCard" class="card">
+    <div class="notice">
+      <b>Buat Pesanan</b>
+      <div class="muted" style="margin-top:5px">
+        Pilih layanan, isi data perangkat, lalu lanjutkan ke pembayaran QRIS.
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="field">
+        <label>Kategori</label>
+        <select id="category">
+          <option value="">Memuat...</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Layanan</label>
+        <select id="service" disabled>
+          <option value="">Pilih kategori dulu</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Nama</label>
+        <input id="name" placeholder="Nama kamu">
+      </div>
+
+      <div class="field">
+        <label>WhatsApp</label>
+        <input id="whatsapp" placeholder="08xxxxxxxxxx" inputmode="tel">
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input id="email" type="email" placeholder="opsional">
+      </div>
+
+      <div class="field">
+        <label>Device</label>
+        <input id="device" placeholder="Contoh: iPhone 13">
+      </div>
+
+      <div class="field">
+        <label>IMEI / Serial</label>
+        <input id="serial" placeholder="opsional">
+      </div>
+
+      <div class="field">
+        <label>Metode Pembayaran</label>
+        <select id="paymentMethod">
+          <option value="QRIS">QRIS</option>
+        </select>
+      </div>
+
+      <div class="field full">
+        <label>Catatan</label>
+        <textarea id="note" placeholder="Informasi tambahan (opsional)"></textarea>
+      </div>
+    </div>
+
+    <div id="formError" class="error hidden"></div>
+    <button id="createBtn" class="primary">Buat Pesanan</button>
+  </section>
+
+  <section id="orderCard" class="card hidden">
+    <div class="order-head">
+      <div>
+        <div class="muted">Order ID</div>
+        <div id="orderId" class="order-id">-</div>
+      </div>
+      <div id="statusBadge" class="badge status-wait">WAITING_PAYMENT</div>
+    </div>
+
+    <div style="margin-top:20px">
+      <div class="muted">Total Pembayaran</div>
+      <div id="price" class="price">Rp0</div>
+      <div class="timer">Sisa waktu: <span id="timer">--:--</span></div>
+    </div>
+
+    <div class="detail" style="margin-top:20px">
+      <div>Layanan</div><div id="detailService">-</div>
+      <div>Device</div><div id="detailDevice">-</div>
+      <div>Nama</div><div id="detailName">-</div>
+    </div>
+
+    <div id="paymentNotice" class="notice" style="margin-top:20px">
+      <b>Menunggu QRIS</b>
+      <div class="muted" style="margin-top:5px">
+        Admin sedang menyiapkan QRIS untuk order ini.
+        QR akan muncul otomatis tanpa refresh halaman.
+      </div>
+    </div>
+
+    <div id="qrBox" class="qrbox">
+      <div class="center muted">
+        <div style="font-size:30px">⌛</div>
+        <div>Menunggu QRIS dari Admin...</div>
+      </div>
+    </div>
+
+    <div id="orderMessage" class="center muted" style="margin-top:15px"></div>
+  </section>
+</div>
+
+<!-- Firebase Realtime Database is consumed through its REST streaming endpoint.
+     This avoids requiring a Firebase Web App/API-key configuration in the browser. -->
+<script>
+const API_URL =
+  localStorage.getItem("IGS_ORDER_API_URL") ||
+  "PASTE_APPS_SCRIPT_V2_EXEC_URL_HERE";
+
+const FIREBASE_DATABASE_URL =
+  "https://order-qr-58fd0-default-rtdb.asia-southeast1.firebasedatabase.app";
+
+let services = [];
+let currentOrder = null;
+let firebaseStream = null;
+let timerInterval = null;
+
+const $ = id => document.getElementById(id);
+const categoryEl = $("category");
+const serviceEl = $("service");
+const createBtn = $("createBtn");
+
+function apiReady(){
+  return API_URL &&
+    !API_URL.includes("PASTE_APPS_SCRIPT_V2_EXEC_URL_HERE");
+}
+
+function firebaseStreamUrl(orderId){
+  return FIREBASE_DATABASE_URL.replace(/\/+$/,"") +
+    "/publicOrders/" + encodeURIComponent(orderId) + ".json";
+}
+
+async function loadServices(){
+  if(!apiReady()){
+    categoryEl.innerHTML =
+      '<option value="">API belum dikonfigurasi</option>';
+    showFormError(
+      "Order V2 sudah terpasang, tetapi API backend belum dihubungkan. " +
+      "Isi API_URL setelah Apps Script V2 selesai di-deploy."
+    );
+    return;
+  }
+
+  try{
+    const res = await fetch(API_URL + "?action=services", {
+      cache:"no-store"
+    });
+    const data = await res.json();
+
+    if(!data.ok) throw new Error(data.error || "Gagal mengambil layanan.");
+
+    services = Array.isArray(data.services) ? data.services : [];
+
+    const categories = [...new Set(
+      services.map(x => x.category).filter(Boolean)
+    )];
+
+    categoryEl.innerHTML =
+      '<option value="">Pilih kategori</option>' +
+      categories.map(c =>
+        `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`
+      ).join("");
+
+    serviceEl.innerHTML =
+      '<option value="">Pilih kategori dulu</option>';
+    serviceEl.disabled = true;
+
+  }catch(err){
+    categoryEl.innerHTML =
+      '<option value="">Gagal memuat layanan</option>';
+    showFormError(err.message);
+  }
+}
+
+categoryEl.addEventListener("change", ()=>{
+  const category = categoryEl.value;
+  const list = services.filter(x => x.category === category);
+
+  serviceEl.innerHTML =
+    '<option value="">Pilih layanan</option>' +
+    list.map(x =>
+      `<option value="${escapeHtml(x.name)}" data-price="${x.price}">
+        ${escapeHtml(x.name)} — ${rupiah(x.price)}
+      </option>`
+    ).join("");
+
+  serviceEl.disabled = !list.length;
+});
+
+createBtn.addEventListener("click", createOrder);
+
+async function createOrder(){
+  hideFormError();
+
+  const category = categoryEl.value;
+  const service = serviceEl.value;
+  const name = $("name").value.trim();
+  const whatsapp = $("whatsapp").value.trim();
+  const email = $("email").value.trim();
+  const device = $("device").value.trim();
+  const serial = $("serial").value.trim();
+  const note = $("note").value.trim();
+  const paymentMethod = $("paymentMethod").value;
+
+  if(!apiReady()){
+    return showFormError(
+      "Backend belum dikonfigurasi. Isi API_URL terlebih dahulu."
+    );
+  }
+
+  if(!category) return showFormError("Pilih kategori.");
+  if(!service) return showFormError("Pilih layanan.");
+  if(!name) return showFormError("Nama wajib diisi.");
+  if(!whatsapp) return showFormError("WhatsApp wajib diisi.");
+  if(!device) return showFormError("Device wajib diisi.");
+
+  createBtn.disabled = true;
+  createBtn.textContent = "Membuat pesanan...";
+
+  try{
+    const response = await fetch(API_URL, {
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({
+        action:"createOrder",
+        category, service, name, whatsapp, email,
+        device, serial, note, paymentMethod
+      })
+    });
+
+    const data = await response.json();
+    if(!data.ok) throw new Error(data.error || "Gagal membuat pesanan.");
+
+    openOrder(data.order);
+
+  }catch(err){
+    showFormError(err.message);
+  }finally{
+    createBtn.disabled = false;
+    createBtn.textContent = "Buat Pesanan";
+  }
+}
+
+function openOrder(order){
+  currentOrder = order;
+  $("formCard").classList.add("hidden");
+  $("orderCard").classList.remove("hidden");
+  renderOrder(order);
+  startTimer(order.expiresAt);
+  listenRealtime(order.id);
+}
+
+function listenRealtime(orderId){
+  if(firebaseStream){
+    try{ firebaseStream.close(); }catch(e){}
+    firebaseStream = null;
+  }
+
+  const url = firebaseStreamUrl(orderId);
+
+  try{
+    firebaseStream = new EventSource(url);
+
+    firebaseStream.addEventListener("put", handleFirebaseEvent);
+    firebaseStream.addEventListener("patch", handleFirebaseEvent);
+
+    firebaseStream.onerror = ()=>{
+      console.warn("Firebase stream reconnecting...");
+      setMessage("Menghubungkan kembali ke status pembayaran...");
+    };
+  }catch(err){
+    console.error(err);
+    fallbackPoll(orderId);
+  }
+}
+
+function handleFirebaseEvent(event){
+  try{
+    const payload = JSON.parse(event.data || "{}");
+    const data = payload.data;
+
+    if(!data){
+      setMessage("Order sudah tidak tersedia.");
+      return;
+    }
+
+    currentOrder = data;
+    renderOrder(data);
+    setMessage("");
+  }catch(err){
+    console.error("Firebase event:", err);
+  }
+}
+
+function fallbackPoll(orderId){
+  const interval = setInterval(async ()=>{
+    if(!currentOrder || currentOrder.id !== orderId){
+      clearInterval(interval);
+      return;
+    }
+
+    if(!apiReady()) return;
+
+    try{
+      const res = await fetch(
+        API_URL + "?action=order&orderId=" +
+        encodeURIComponent(orderId),
+        {cache:"no-store"}
+      );
+
+      const data = await res.json();
+
+      if(data.ok && data.order){
+        currentOrder = data.order;
+        renderOrder(data.order);
+      }
+    }catch(e){}
+  },5000);
+}
+
+function renderOrder(order){
+  $("orderId").textContent = order.id || "-";
+  $("price").textContent = rupiah(order.nominal);
+  $("detailService").textContent = order.service || "-";
+  $("detailDevice").textContent = order.device || "-";
+  $("detailName").textContent = order.name || "-";
+
+  const status = String(
+    order.status || "WAITING_PAYMENT"
+  ).toUpperCase();
+
+  const badge = $("statusBadge");
+  badge.textContent = status;
+  badge.className = "badge";
+
+  if(status === "PAID" || status === "COMPLETED"){
+    badge.classList.add("status-good");
+  }else if(status === "CANCELLED" || status === "EXPIRED"){
+    badge.classList.add("status-danger");
+  }else{
+    badge.classList.add("status-wait");
+  }
+
+  const payment = order.payment || {};
+  const paymentStatus = String(payment.status || "").toUpperCase();
+  const qr = String(payment.qr || "");
+
+  if(["PAID","CANCELLED","EXPIRED","COMPLETED"].includes(status)){
+    $("qrBox").innerHTML =
+      `<div class="center">
+        <div style="font-size:34px">
+          ${status === "PAID" || status === "COMPLETED" ? "✓" : "×"}
+        </div>
+        <b>${status === "PAID" || status === "COMPLETED"
+          ? "Pembayaran diterima"
+          : "Order tidak dapat dilanjutkan"}</b>
+      </div>`;
+
+    $("paymentNotice").innerHTML =
+      `<b>${status}</b>
+       <div class="muted" style="margin-top:5px">
+       ${status === "PAID"
+         ? "Pembayaran sudah dikonfirmasi admin."
+         : "QRIS telah dinonaktifkan."}
+       </div>`;
+    return;
+  }
+
+  if(paymentStatus === "QR_READY" && qr.startsWith("data:image/")){
+    $("qrBox").innerHTML =
+      `<img src="${qr}" alt="QRIS Pembayaran">`;
+
+    $("paymentNotice").innerHTML =
+      `<b>QRIS SIAP</b>
+       <div class="muted" style="margin-top:5px">
+       Scan QR di atas untuk menyelesaikan pembayaran.
+       </div>`;
+    return;
+  }
+
+  $("qrBox").innerHTML =
+    `<div class="center muted">
+      <div style="font-size:30px">⌛</div>
+      <div>Menunggu QRIS dari Admin...</div>
+    </div>`;
+
+  $("paymentNotice").innerHTML =
+    `<b>Menunggu QRIS</b>
+     <div class="muted" style="margin-top:5px">
+     Admin sedang menyiapkan QRIS. QR akan muncul otomatis.
+     </div>`;
+}
+
+function startTimer(expiresAt){
+  if(timerInterval) clearInterval(timerInterval);
+
+  const expires = new Date(expiresAt).getTime();
+
+  function tick(){
+    const diff = expires - Date.now();
+
+    if(diff <= 0){
+      $("timer").textContent = "00:00";
+      clearInterval(timerInterval);
+      return;
+    }
+
+    const totalSec = Math.floor(diff / 1000);
+    const min = Math.floor(totalSec / 60);
+    const sec = totalSec % 60;
+
+    $("timer").textContent =
+      String(min).padStart(2,"0") + ":" +
+      String(sec).padStart(2,"0");
+  }
+
+  tick();
+  timerInterval = setInterval(tick,1000);
+}
+
+function showFormError(message){
+  $("formError").textContent = message;
+  $("formError").classList.remove("hidden");
+}
+
+function hideFormError(){
+  $("formError").classList.add("hidden");
+  $("formError").textContent = "";
+}
+
+function setMessage(message){
+  $("orderMessage").textContent = message || "";
+}
+
+function rupiah(value){
+  const n = Number(value) || 0;
+  return "Rp" + Math.round(n)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g,".");
+}
+
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+loadServices();
+</script>
+</body>
+</html>
