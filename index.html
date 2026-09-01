@@ -254,8 +254,8 @@ const serviceEl = $("service");
 const createBtn = $("createBtn");
 
 function apiReady(){
-  return API_URL &&
-    !API_URL.includes("https://script.google.com/macros/s/AKfycbzYjJnBcyPsucFdAJlrPv40FN_Q_ucnMq8m636JzfRUhWo37oQUeqQQRjlTzgKDrWhPJw/exec");
+  return !!API_URL &&
+    !API_URL.includes("PASTE_APPS_SCRIPT_V2_EXEC_URL_HERE");
 }
 
 function firebaseStreamUrl(orderId){
