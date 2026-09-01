@@ -238,7 +238,7 @@ button{
 <script>
 const API_URL =
   localStorage.getItem("IGS_ORDER_API_URL") ||
-  "PASTE_APPS_SCRIPT_V2_EXEC_URL_HERE";
+  "https://script.google.com/macros/s/AKfycbzYjJnBcyPsucFdAJlrPv40FN_Q_ucnMq8m636JzfRUhWo37oQUeqQQRjlTzgKDrWhPJw/exec";
 
 const FIREBASE_DATABASE_URL =
   "https://order-qr-58fd0-default-rtdb.asia-southeast1.firebasedatabase.app";
@@ -255,7 +255,7 @@ const createBtn = $("createBtn");
 
 function apiReady(){
   return API_URL &&
-    !API_URL.includes("PASTE_APPS_SCRIPT_V2_EXEC_URL_HERE");
+    !API_URL.includes("https://script.google.com/macros/s/AKfycbzYjJnBcyPsucFdAJlrPv40FN_Q_ucnMq8m636JzfRUhWo37oQUeqQQRjlTzgKDrWhPJw/exec");
 }
 
 function firebaseStreamUrl(orderId){
