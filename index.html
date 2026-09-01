@@ -100,8 +100,9 @@ button{
   background:#fafafa;
   margin-top:18px;
   overflow:hidden;
+  padding:12px;
 }
-.qrbox img{max-width:100%;width:330px;height:auto;display:block}
+.qrbox img{max-width:100%;width:330px;height:auto;display:block;border-radius:10px}
 .center{text-align:center}
 .timer{font-weight:900}
 .detail{
@@ -243,10 +244,25 @@ const API_URL =
 const FIREBASE_DATABASE_URL =
   "https://order-qr-58fd0-default-rtdb.asia-southeast1.firebasedatabase.app";
 
+/*
+ * AUTO-CROP STATUS BAR
+ * ---------------------------------------------------------
+ * Screenshot QR dari HP biasanya ikut kebawa status bar
+ * (jam, sinyal, baterai) di paling atas. CROP_TOP_PERCENT
+ * menentukan berapa persen tinggi gambar yang dipotong dari
+ * atas sebelum ditampilkan ke customer.
+ *
+ * Kalau status bar masih kepotong keliatan -> NAIKKAN angka ini.
+ * Kalau bagian QR/header ikut kepotong        -> TURUNKAN angka ini.
+ * 0.065 = potong 6.5% bagian paling atas gambar.
+ */
+const CROP_TOP_PERCENT = 0.065;
+
 let services = [];
 let currentOrder = null;
 let firebaseStream = null;
 let timerInterval = null;
+let lastRenderedQr = ""; // cache supaya tidak crop ulang gambar yang sama berkali-kali
 
 const $ = id => document.getElementById(id);
 const categoryEl = $("category");
@@ -261,6 +277,53 @@ function apiReady(){
 function firebaseStreamUrl(orderId){
   return FIREBASE_DATABASE_URL.replace(/\/+$/,"") +
     "/publicOrders/" + encodeURIComponent(orderId) + ".json";
+}
+
+/**
+ * Memotong bagian atas (status bar HP) dari data URL gambar QR.
+ * Mengembalikan Promise<string> berisi data URL hasil crop.
+ * Kalau gagal (mis. CORS/format aneh), fallback ke gambar asli
+ * supaya QR tetap tampil walau tidak ke-crop.
+ */
+function cropStatusBar(dataUrl, topPercent){
+  return new Promise((resolve) => {
+    try{
+      const img = new Image();
+
+      img.onload = () => {
+        try{
+          const cropPx = Math.max(0, Math.round(img.height * topPercent));
+          const outHeight = img.height - cropPx;
+
+          if (outHeight <= 0) {
+            resolve(dataUrl);
+            return;
+          }
+
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = outHeight;
+
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(
+            img,
+            0, cropPx, img.width, outHeight,
+            0, 0, img.width, outHeight
+          );
+
+          resolve(canvas.toDataURL("image/jpeg", 0.92));
+        }catch(err){
+          console.warn("Crop QR gagal, pakai gambar asli:", err);
+          resolve(dataUrl);
+        }
+      };
+
+      img.onerror = () => resolve(dataUrl);
+      img.src = dataUrl;
+    }catch(err){
+      resolve(dataUrl);
+    }
+  });
 }
 
 async function loadServices(){
@@ -500,16 +563,36 @@ function renderOrder(order){
   }
 
   if(paymentStatus === "QR_READY" && qr.startsWith("data:image/")){
-    $("qrBox").innerHTML =
-      `<img src="${qr}" alt="QRIS Pembayaran">`;
-
     $("paymentNotice").innerHTML =
       `<b>QRIS SIAP</b>
        <div class="muted" style="margin-top:5px">
        Scan QR di atas untuk menyelesaikan pembayaran.
        </div>`;
+
+    // Hindari crop ulang gambar yang sama tiap kali renderOrder()
+    // dipanggil (mis. dari polling/stream event yang datanya sama).
+    if(qr !== lastRenderedQr){
+      lastRenderedQr = qr;
+
+      $("qrBox").innerHTML =
+        `<div class="center muted">
+          <div style="font-size:20px">⏳</div>
+          <div>Menyiapkan tampilan QR...</div>
+        </div>`;
+
+      cropStatusBar(qr, CROP_TOP_PERCENT).then(croppedDataUrl => {
+        // Jaga-jaga kalau order sudah berubah status saat crop selesai.
+        if(lastRenderedQr !== qr) return;
+
+        $("qrBox").innerHTML =
+          `<img src="${croppedDataUrl}" alt="QRIS Pembayaran">`;
+      });
+    }
+
     return;
   }
+
+  lastRenderedQr = "";
 
   $("qrBox").innerHTML =
     `<div class="center muted">
