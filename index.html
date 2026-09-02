@@ -6,7 +6,9 @@
 <title>iGet Sync — Order</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="logo-is.png">
-<link rel="preload" as="image" href="./loading.gif?v=2">
+<link rel="preload" as="image" href="./loading.gif?v=4">
+<link rel="preload" as="image" href="./processing.gif?v=4">
+<link rel="preload" as="image" href="./success.gif?v=4">
 
 <style>
 :root{
@@ -183,7 +185,7 @@ body.dark{--bg:#090d15;--card:#111827;--text:#f8fafc;--muted:#94a3b8;--line:#253
 
 /* ===== V2 Final Polish ===== */
 .brand-logo{overflow:hidden;flex:0 0 auto}.brand-logo img{width:100%;height:100%;object-fit:cover;display:block}
-.header-gif{width:52px;height:58px;object-fit:contain;display:block;flex:0 0 auto;border-radius:12px;filter:drop-shadow(0 8px 16px rgba(15,23,42,.14));transition:transform .22s ease,filter .22s ease}.header-gif:hover{transform:translateY(-2px) scale(1.04);filter:drop-shadow(0 11px 20px rgba(15,23,42,.2))}.header-gif-wrap{display:flex;align-items:center;justify-content:center;min-width:52px;height:58px}
+.header-gif{width:52px;height:58px;object-fit:contain;display:block;flex:0 0 auto;border-radius:12px;filter:drop-shadow(0 8px 16px rgba(15,23,42,.14));transition:transform .22s ease,filter .22s ease}.header-gif:hover{transform:translateY(-2px) scale(1.04);filter:drop-shadow(0 11px 20px rgba(15,23,42,.2))}.header-gif-wrap{display:flex;align-items:center;justify-content:center;min-width:52px;height:58px}.header-gif-wrap.gif-missing{min-width:0;width:0;margin:0;overflow:hidden}
 .filter-btn{background:var(--card);color:var(--text);border:1px solid var(--line);padding:11px 13px;white-space:nowrap}.filter-btn:hover{background:var(--soft,#f8fafc)}
 .filter-panel{margin:10px 0 12px;padding:14px;border:1px solid var(--line);background:var(--card);border-radius:16px;animation:filterIn .18s ease}.filter-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.filter-row>div{display:flex;flex-direction:column;gap:6px}.filter-row label{font-size:11px;color:var(--muted)}.filter-row select{padding:10px 12px}.filter-clear{margin-top:10px;width:100%}@keyframes filterIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
 .order-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.cancel-order-btn{background:#fee2e2;color:#991b1b;border:1px solid #fecaca;padding:8px 11px;font-size:12px}.cancel-order-btn:hover{filter:brightness(.97)}
@@ -194,7 +196,7 @@ body.dark .back-shop-btn{background:#172033!important;color:#f8fafc!important;bo
 @media(max-width:520px){.filter-btn span{display:none}.filter-btn{width:44px;padding:11px 0}.filter-row{grid-template-columns:1fr}.order-actions{width:100%;justify-content:flex-start}.header-social{gap:5px}.header-social a{padding:7px 8px;font-size:11px}.header-gif-wrap{min-width:42px;width:42px;height:48px}.header-gif{width:42px;height:48px}.head-actions{gap:6px}.live-pill{padding:7px 9px;font-size:11px}}
 
 /* ===== Interaction GIF States ===== */
-.cart-visual{display:grid;place-items:center;width:28px;height:28px;line-height:1}.cart-emoji{font-size:19px}.cart-gif{width:28px;height:28px;object-fit:contain;display:block}.cart-btn.gif-active{padding-left:10px;padding-right:10px}.qr-wait-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:18px 12px}.state-gif{width:78px;height:97px;object-fit:contain;display:block}.qr-state-title{font-size:15px;font-weight:900;color:var(--text);margin-top:2px}.qr-state-text{font-size:12px;line-height:1.45;max-width:280px}.qrbox .qr-ready-state{display:flex;flex-direction:column;align-items:center;gap:7px}.qrbox .qr-ready-state img{max-width:100%;width:330px;height:auto;display:block;border-radius:10px}
+.cart-visual{display:grid;place-items:center;width:34px;height:34px;line-height:1}.cart-emoji{font-size:21px}.cart-gif{width:34px;height:34px;object-fit:contain;display:grid;place-items:center}.cart-gif img{width:34px;height:34px;object-fit:contain;display:block}.cart-fallback{font-size:20px;line-height:1;display:grid;place-items:center;width:34px;height:34px}.cart-fallback.spinner{font-size:0;border:3px solid rgba(148,163,184,.35);border-top-color:#22c55e;border-radius:50%;animation:cartSpin .65s linear infinite}@keyframes cartSpin{to{transform:rotate(360deg)}}.cart-btn.gif-active{padding-left:10px;padding-right:10px}.gif-fallback-loading{position:relative}.gif-fallback-loading:after{content:"";width:24px;height:24px;border:3px solid rgba(148,163,184,.35);border-top-color:#22c55e;border-radius:50%;animation:cartSpin .65s linear infinite;display:block}.gif-fallback-success:after{content:"✓";font-size:23px;font-weight:900;color:#22c55e;display:block}.qr-gif-fallback{position:relative}.qr-gif-fallback:after{content:"";width:48px;height:48px;border:4px solid rgba(148,163,184,.28);border-top-color:#22c55e;border-radius:50%;animation:cartSpin .75s linear infinite;display:block;margin:24px auto}.gif-fallback-loading img,.gif-fallback-success img,.qr-gif-fallback img{display:none!important}@media(prefers-reduced-motion:reduce){.gif-fallback-loading:after,.qr-gif-fallback:after{animation:none}}.qr-wait-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:18px 12px}.state-gif{width:78px;height:97px;object-fit:contain;display:block}.state-gif-fallback{width:54px;height:54px;border:4px solid rgba(148,163,184,.28);border-top-color:#22c55e;border-radius:50%;animation:cartSpin .75s linear infinite;margin:20px}@media(prefers-reduced-motion:reduce){.state-gif-fallback,.cart-fallback.spinner{animation:none;border-top-color:#22c55e}}.qr-state-title{font-size:15px;font-weight:900;color:var(--text);margin-top:2px}.qr-state-text{font-size:12px;line-height:1.45;max-width:280px}.qrbox .qr-ready-state{display:flex;flex-direction:column;align-items:center;gap:7px}.qrbox .qr-ready-state img{max-width:100%;width:330px;height:auto;display:block;border-radius:10px}
 
 /* ===== Mobile Professional Layout v1 ===== */
 @media (max-width: 700px){
@@ -234,7 +236,7 @@ body.dark .back-shop-btn{background:#172033!important;color:#f8fafc!important;bo
   .search-icon{left:14px}
   .filter-btn{width:44px;height:44px;padding:0;border-radius:13px;font-size:18px;display:grid;place-items:center}
   .filter-btn span{display:none}
-  .cart-btn{width:48px;height:44px;padding:0;border-radius:13px;font-size:0;display:grid;place-items:center}
+  .cart-btn{width:48px;height:44px;padding:0;border-radius:13px;font-size:0;display:grid;place-items:center;overflow:visible}
   .cart-btn:before{content:none}
 
   /* Categories: one clean horizontal rail, never wraps */
@@ -300,7 +302,7 @@ body.dark .back-shop-btn{background:#172033!important;color:#f8fafc!important;bo
 <div class="wrap">
   <header class="site-head">
     <div class="brand-wrap"><div class="brand-logo"><img src="logo-is.png" alt="iGet Sync" onerror="this.style.display='none';this.parentElement.textContent='IS';"></div><div><div class="brand">iGet Sync</div><div class="sub">Apple Tech Solutions</div></div></div>
-    <div class="head-actions"><span class="live-pill"><i class="live-dot"></i> Support Online</span><div class="header-gif-wrap" title="iGet Sync"><img class="header-gif" src="./loading.gif?v=2" alt="iGet Sync" decoding="async"></div><div class="social-links header-social"><a href="https://www.instagram.com/igetsync/" target="_blank" rel="noopener noreferrer" aria-label="Instagram iGet Sync">Instagram</a><a href="https://www.tiktok.com/@igetsync" target="_blank" rel="noopener noreferrer" aria-label="TikTok iGet Sync">TikTok</a></div><button id="themeBtn" class="icon-btn" type="button" title="Mode tampilan"><span class="theme-symbol">☾</span></button></div>
+    <div class="head-actions"><span class="live-pill"><i class="live-dot"></i> Support Online</span><div class="header-gif-wrap" title="iGet Sync"><img class="header-gif" src="./loading.gif?v=4" alt="iGet Sync" decoding="async" onerror="this.onerror=null;this.style.display='none';this.parentElement.classList.add('gif-missing');"></div><div class="social-links header-social"><a href="https://www.instagram.com/igetsync/" target="_blank" rel="noopener noreferrer" aria-label="Instagram iGet Sync">Instagram</a><a href="https://www.tiktok.com/@igetsync" target="_blank" rel="noopener noreferrer" aria-label="TikTok iGet Sync">TikTok</a></div><button id="themeBtn" class="icon-btn" type="button" title="Mode tampilan"><span class="theme-symbol">☾</span></button></div>
   </header>
   <section class="hero"><div class="hero-row"><div><h1>Layanan Apple dalam satu tempat.</h1><p>Pilih layanan, lakukan checkout, dan pantau status pembayaran secara realtime dalam satu alur yang praktis.</p><div class="hero-mini"><span>⚡ Proses cepat</span><span>🔒 Secure Order</span><span>🟢 Support Online</span></div></div><div class="live-pill" style="background:rgba(34,197,94,.12);border-color:rgba(134,239,172,.25);color:#bbf7d0"><i class="live-dot"></i> 24/7 Online</div></div></section>
 
@@ -387,7 +389,7 @@ body.dark .back-shop-btn{background:#172033!important;color:#f8fafc!important;bo
 
     <div id="qrBox" class="qrbox">
       <div class="center muted qr-wait-state">
-        <img class="state-gif processing-gif" src="./processing.gif" alt="Memproses QRIS" width="78" height="97">
+        <img class="state-gif processing-gif" src="./processing.gif?v=4" alt="Memproses QRIS" width="78" height="97" onerror="this.onerror=null;this.style.display='none';this.parentElement.classList.add('qr-gif-fallback');">
         <div class="qr-state-title">Menyiapkan QRIS</div>
         <div class="qr-state-text">QR pembayaran akan tampil otomatis setelah siap.</div>
       </div>
@@ -721,16 +723,15 @@ function setCartGif(state){
   if(!visual)return;
   if(state === "loading"){
     visual.className="cart-visual cart-gif";
-    visual.innerHTML='<img src="./loading.gif?v=2" alt="Memproses" width="28" height="28">';
+    visual.innerHTML='<img src="./loading.gif?v=4" alt="Memproses" width="34" height="34" onerror="this.onerror=null;this.style.display=\'none\';this.parentElement.classList.add(\'gif-fallback-loading\');">';
   }else if(state === "success"){
     visual.className="cart-visual cart-gif";
-    visual.innerHTML='<img src="./success.gif" alt="Berhasil" width="28" height="28">';
+    visual.innerHTML='<img src="./success.gif?v=4" alt="Berhasil" width="34" height="34" onerror="this.onerror=null;this.style.display=\'none\';this.parentElement.classList.add(\'gif-fallback-success\');">';
   }else{
     visual.className="cart-visual cart-emoji";
     visual.textContent="🛒";
   }
 }
-
 function addToCart(item,card){
   if(!item)return;
   cart.push({...item,cartId:Date.now()+"-"+Math.random()});
@@ -971,7 +972,7 @@ function renderOrder(order){
 
   $("qrBox").innerHTML =
     `<div class="center muted qr-wait-state">
-      <img class="state-gif processing-gif" src="./processing.gif" alt="Memproses QRIS" width="78" height="97">
+      <img class="state-gif processing-gif" src="./processing.gif?v=4" alt="Memproses QRIS" width="78" height="97" onerror="this.onerror=null;this.style.display='none';this.parentElement.classList.add('qr-gif-fallback');">
       <div class="qr-state-title">Menyiapkan QRIS</div>
       <div class="qr-state-text">QR pembayaran akan tampil otomatis setelah siap.</div>
     </div>`;
