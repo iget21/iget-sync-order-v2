@@ -245,18 +245,35 @@ const FIREBASE_DATABASE_URL =
   "https://order-qr-58fd0-default-rtdb.asia-southeast1.firebasedatabase.app";
 
 /*
- * AUTO-CROP STATUS BAR
+ * AUTO-CROP QR SCREENSHOT
  * ---------------------------------------------------------
- * Screenshot QR dari HP biasanya ikut kebawa status bar
- * (jam, sinyal, baterai) di paling atas. CROP_TOP_PERCENT
- * menentukan berapa persen tinggi gambar yang dipotong dari
- * atas sebelum ditampilkan ke customer.
+ * Screenshot QR dari HP biasanya kebawa 2 bagian yang gak perlu
+ * ditampilkan ke customer:
  *
- * Kalau status bar masih kepotong keliatan -> NAIKKAN angka ini.
- * Kalau bagian QR/header ikut kepotong        -> TURUNKAN angka ini.
- * 0.065 = potong 6.5% bagian paling atas gambar.
+ *  - ATAS  : status bar HP (jam, sinyal, baterai)
+ *  - BAWAH : tombol aplikasi (mis. "UBAH HARGA", "BAGIKAN QRIS")
+ *            dan tombol tutup
+ *
+ * CROP_TOP_PERCENT dan CROP_BOTTOM_PERCENT masing-masing menentukan
+ * berapa persen TINGGI GAMBAR ASLI yang dipotong dari atas / bawah,
+ * sebelum QR ditampilkan ke customer. Yang tersisa di tengah cuma:
+ * nama toko, logo QRIS + NMID, barcode, dan nominal harga.
+ *
+ * CARA ATUR (kalau hasilnya belum pas persis):
+ *  - Status bar HP masih nongol sisa dikit di atas
+ *      -> NAIKKAN CROP_TOP_PERCENT (mis. 0.065 -> 0.08)
+ *  - Bagian header/logo QRIS ikut kepotong
+ *      -> TURUNKAN CROP_TOP_PERCENT
+ *  - Tombol "UBAH HARGA"/"BAGIKAN QRIS" masih nongol sisa dikit
+ *      -> NAIKKAN CROP_BOTTOM_PERCENT (mis. 0.18 -> 0.22)
+ *  - Nominal harga ikut kepotong / gak keliatan
+ *      -> TURUNKAN CROP_BOTTOM_PERCENT
+ *
+ * Setelah ubah angka, cukup save file lalu refresh halaman order
+ * yang sudah ada QR-nya -- gak perlu kirim ulang QR dari Telegram.
  */
 const CROP_TOP_PERCENT = 0.065;
+const CROP_BOTTOM_PERCENT = 0.18;
 
 let services = [];
 let currentOrder = null;
@@ -280,22 +297,27 @@ function firebaseStreamUrl(orderId){
 }
 
 /**
- * Memotong bagian atas (status bar HP) dari data URL gambar QR.
- * Mengembalikan Promise<string> berisi data URL hasil crop.
- * Kalau gagal (mis. CORS/format aneh), fallback ke gambar asli
- * supaya QR tetap tampil walau tidak ke-crop.
+ * Memotong bagian atas (status bar HP) dan bagian bawah (tombol
+ * aplikasi) dari data URL gambar QR, sisain cuma bagian inti
+ * pembayaran di tengah. Mengembalikan Promise<string> berisi data
+ * URL hasil crop. Kalau gagal (mis. format gambar aneh), fallback
+ * ke gambar asli supaya QR tetap tampil walau tidak ke-crop.
  */
-function cropStatusBar(dataUrl, topPercent){
+function cropQrImage(dataUrl, topPercent, bottomPercent){
   return new Promise((resolve) => {
     try{
       const img = new Image();
 
       img.onload = () => {
         try{
-          const cropPx = Math.max(0, Math.round(img.height * topPercent));
-          const outHeight = img.height - cropPx;
+          const topPx = Math.max(0, Math.round(img.height * topPercent));
+          const bottomPx = Math.max(0, Math.round(img.height * bottomPercent));
+          const outHeight = img.height - topPx - bottomPx;
 
           if (outHeight <= 0) {
+            // Kombinasi persentase kebesaran, jangan sampai hasilnya
+            // gambar kosong -- lebih aman tampilkan gambar asli.
+            console.warn("Crop QR: hasil crop <= 0, pakai gambar asli.");
             resolve(dataUrl);
             return;
           }
@@ -307,7 +329,7 @@ function cropStatusBar(dataUrl, topPercent){
           const ctx = canvas.getContext("2d");
           ctx.drawImage(
             img,
-            0, cropPx, img.width, outHeight,
+            0, topPx, img.width, outHeight,
             0, 0, img.width, outHeight
           );
 
@@ -580,7 +602,7 @@ function renderOrder(order){
           <div>Menyiapkan tampilan QR...</div>
         </div>`;
 
-      cropStatusBar(qr, CROP_TOP_PERCENT).then(croppedDataUrl => {
+      cropQrImage(qr, CROP_TOP_PERCENT, CROP_BOTTOM_PERCENT).then(croppedDataUrl => {
         // Jaga-jaga kalau order sudah berubah status saat crop selesai.
         if(lastRenderedQr !== qr) return;
 
