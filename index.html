@@ -193,6 +193,9 @@ body.dark .notice,body.dark .trust,body.dark .order-hero,body.dark .qrbox{backgr
 body.dark .back-shop-btn{background:#172033!important;color:#f8fafc!important;border-color:#253044}
 @media(max-width:520px){.filter-btn span{display:none}.filter-btn{width:44px;padding:11px 0}.filter-row{grid-template-columns:1fr}.order-actions{width:100%;justify-content:flex-start}.header-social{gap:5px}.header-social a{padding:7px 8px;font-size:11px}.header-gif-wrap{min-width:42px;width:42px;height:48px}.header-gif{width:42px;height:48px}.head-actions{gap:6px}.live-pill{padding:7px 9px;font-size:11px}}
 
+/* ===== Interaction GIF States ===== */
+.cart-visual{display:grid;place-items:center;width:28px;height:28px;line-height:1}.cart-emoji{font-size:19px}.cart-gif{width:28px;height:28px;object-fit:contain;display:block}.cart-btn.gif-active{padding-left:10px;padding-right:10px}.qr-wait-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:18px 12px}.state-gif{width:78px;height:97px;object-fit:contain;display:block}.qr-state-title{font-size:15px;font-weight:900;color:var(--text);margin-top:2px}.qr-state-text{font-size:12px;line-height:1.45;max-width:280px}.qrbox .qr-ready-state{display:flex;flex-direction:column;align-items:center;gap:7px}.qrbox .qr-ready-state img{max-width:100%;width:330px;height:auto;display:block;border-radius:10px}
+
 /* ===== Mobile Professional Layout v1 ===== */
 @media (max-width: 700px){
   body{overflow-x:hidden}
@@ -232,7 +235,7 @@ body.dark .back-shop-btn{background:#172033!important;color:#f8fafc!important;bo
   .filter-btn{width:44px;height:44px;padding:0;border-radius:13px;font-size:18px;display:grid;place-items:center}
   .filter-btn span{display:none}
   .cart-btn{width:48px;height:44px;padding:0;border-radius:13px;font-size:0;display:grid;place-items:center}
-  .cart-btn:before{content:'🛒';font-size:19px}
+  .cart-btn:before{content:none}
 
   /* Categories: one clean horizontal rail, never wraps */
   .category-strip{display:flex;flex-wrap:nowrap;gap:7px;overflow-x:auto;overflow-y:hidden;padding:1px 1px 10px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
@@ -299,13 +302,13 @@ body.dark .back-shop-btn{background:#172033!important;color:#f8fafc!important;bo
     <div class="brand-wrap"><div class="brand-logo"><img src="logo-is.png" alt="iGet Sync" onerror="this.style.display='none';this.parentElement.textContent='IS';"></div><div><div class="brand">iGet Sync</div><div class="sub">Apple Tech Solutions</div></div></div>
     <div class="head-actions"><span class="live-pill"><i class="live-dot"></i> Support Online</span><div class="header-gif-wrap" title="iGet Sync"><img class="header-gif" src="./loading.gif?v=2" alt="iGet Sync" decoding="async"></div><div class="social-links header-social"><a href="https://www.instagram.com/igetsync/" target="_blank" rel="noopener noreferrer" aria-label="Instagram iGet Sync">Instagram</a><a href="https://www.tiktok.com/@igetsync" target="_blank" rel="noopener noreferrer" aria-label="TikTok iGet Sync">TikTok</a></div><button id="themeBtn" class="icon-btn" type="button" title="Mode tampilan"><span class="theme-symbol">☾</span></button></div>
   </header>
-  <section class="hero"><div class="hero-row"><div><h1>Service Apple, dibuat simpel.</h1><p>Pilih layanan, checkout, lalu pantau pembayaran secara realtime. Semua dari satu halaman iGet Sync.</p><div class="hero-mini"><span>⚡ Proses cepat</span><span>🔒 Secure Order</span><span>🟢 Support Online</span></div></div><div class="live-pill" style="background:rgba(34,197,94,.12);border-color:rgba(134,239,172,.25);color:#bbf7d0"><i class="live-dot"></i> 24/7 Online</div></div></section>
+  <section class="hero"><div class="hero-row"><div><h1>Layanan Apple dalam satu tempat.</h1><p>Pilih layanan, lakukan checkout, dan pantau status pembayaran secara realtime dalam satu alur yang praktis.</p><div class="hero-mini"><span>⚡ Proses cepat</span><span>🔒 Secure Order</span><span>🟢 Support Online</span></div></div><div class="live-pill" style="background:rgba(34,197,94,.12);border-color:rgba(134,239,172,.25);color:#bbf7d0"><i class="live-dot"></i> 24/7 Online</div></div></section>
 
   <section id="shopCard" class="card">
     <div class="market-head">
       <div class="search"><span class="search-icon">⌕</span><input id="shopSearch" placeholder="Cari layanan..." autocomplete="off"></div>
       <button id="filterBtn" class="filter-btn" type="button">⚙️ <span>Filter</span></button>
-      <button id="cartBtn" class="cart-btn" type="button">🛒 <span id="cartCount" class="cart-count">0</span></button>
+      <button id="cartBtn" class="cart-btn" type="button" aria-label="Keranjang"><span id="cartVisual" class="cart-visual cart-emoji" aria-hidden="true">🛒</span><span id="cartCount" class="cart-count">0</span></button>
     </div>
     <div id="categoryStrip" class="category-strip"></div>
     <div id="filterPanel" class="filter-panel hidden">
@@ -383,9 +386,10 @@ body.dark .back-shop-btn{background:#172033!important;color:#f8fafc!important;bo
     </div>
 
     <div id="qrBox" class="qrbox">
-      <div class="center muted">
-        <div style="font-size:30px">⌛</div>
-        <div>Menunggu QRIS dari Admin...</div>
+      <div class="center muted qr-wait-state">
+        <img class="state-gif processing-gif" src="./processing.gif" alt="Memproses QRIS" width="78" height="97">
+        <div class="qr-state-title">Menyiapkan QRIS</div>
+        <div class="qr-state-text">QR pembayaran akan tampil otomatis setelah siap.</div>
       </div>
     </div>
 
@@ -712,11 +716,35 @@ function openQuickView(item){
 function closeQuick(){$("quickView").classList.remove("open")}
 $("quickClose").onclick=closeQuick;$("quickOverlay").onclick=closeQuick;
 
+function setCartGif(state){
+  const visual=$("cartVisual");
+  if(!visual)return;
+  if(state === "loading"){
+    visual.className="cart-visual cart-gif";
+    visual.innerHTML='<img src="./loading.gif?v=2" alt="Memproses" width="28" height="28">';
+  }else if(state === "success"){
+    visual.className="cart-visual cart-gif";
+    visual.innerHTML='<img src="./success.gif" alt="Berhasil" width="28" height="28">';
+  }else{
+    visual.className="cart-visual cart-emoji";
+    visual.textContent="🛒";
+  }
+}
+
 function addToCart(item,card){
+  if(!item)return;
   cart.push({...item,cartId:Date.now()+"-"+Math.random()});
   renderCart();
   animateToCart(card);
-  showToast("✓ " + item.name + " ditambahkan");
+  setCartGif("loading");
+  showToast("Menambahkan layanan...");
+  clearTimeout(window.__cartGifTimer);
+  window.__cartGifTimer=setTimeout(()=>{
+    setCartGif("success");
+    showToast("✓ Layanan berhasil ditambahkan");
+    clearTimeout(window.__cartGifResetTimer);
+    window.__cartGifResetTimer=setTimeout(()=>setCartGif("idle"),1400);
+  },650);
 }
 function removeFromCart(id){cart=cart.filter(x=>x.cartId!==id);renderCart();}
 function renderCart(){
@@ -942,15 +970,16 @@ function renderOrder(order){
   lastRenderedQr = "";
 
   $("qrBox").innerHTML =
-    `<div class="center muted">
-      <div style="font-size:30px">⌛</div>
-      <div>Menunggu QRIS dari Admin...</div>
+    `<div class="center muted qr-wait-state">
+      <img class="state-gif processing-gif" src="./processing.gif" alt="Memproses QRIS" width="78" height="97">
+      <div class="qr-state-title">Menyiapkan QRIS</div>
+      <div class="qr-state-text">QR pembayaran akan tampil otomatis setelah siap.</div>
     </div>`;
 
   $("paymentNotice").innerHTML =
-    `<b>Menunggu QRIS</b>
+    `<b>Menyiapkan pembayaran</b>
      <div class="muted" style="margin-top:5px">
-     Admin sedang menyiapkan QRIS. QR akan muncul otomatis.
+     QRIS sedang diproses. Halaman ini akan diperbarui otomatis.
      </div>`;
 }
 
