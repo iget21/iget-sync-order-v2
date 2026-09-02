@@ -136,7 +136,7 @@ button{
 .shop-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .product-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 10px 30px rgba(15,23,42,.06);transition:.18s}
 .product-card:hover{transform:translateY(-3px)}
-.product-icon{height:125px;border-radius:14px;background:linear-gradient(135deg,#f3f4f6,#fff);display:flex;align-items:center;justify-content:center;font-size:48px;margin-bottom:12px}
+.product-icon{height:125px;border-radius:14px;background:linear-gradient(135deg,#f3f4f6,#fff);display:flex;align-items:center;justify-content:center;font-size:48px;margin-bottom:12px}.product-image{width:100%;height:100%;object-fit:contain;display:block;position:relative;z-index:2}.product-fallback{width:100%;height:100%;display:grid;place-items:center;font-size:48px;position:relative;z-index:1}.product-image + .product-fallback{display:none}.quick-icon .product-image{width:100%;height:100%;object-fit:contain}.quick-icon .product-fallback{font-size:72px}
 .product-cat{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase}
 .product-name{font-size:15px;font-weight:900;margin-top:5px;min-height:40px}
 .product-price{font-size:18px;font-weight:900;margin:9px 0 12px}
@@ -187,11 +187,11 @@ body.dark{--bg:#090d15;--card:#111827;--text:#f8fafc;--muted:#94a3b8;--line:#253
 .filter-btn{background:var(--card);color:var(--text);border:1px solid var(--line);padding:11px 13px;white-space:nowrap}.filter-btn:hover{background:var(--soft,#f8fafc)}
 .filter-panel{margin:10px 0 12px;padding:14px;border:1px solid var(--line);background:var(--card);border-radius:16px;animation:filterIn .18s ease}.filter-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.filter-row>div{display:flex;flex-direction:column;gap:6px}.filter-row label{font-size:11px;color:var(--muted)}.filter-row select{padding:10px 12px}.filter-clear{margin-top:10px;width:100%}@keyframes filterIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
 .order-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.cancel-order-btn{background:#fee2e2;color:#991b1b;border:1px solid #fecaca;padding:8px 11px;font-size:12px}.cancel-order-btn:hover{filter:brightness(.97)}
-.site-footer{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:20px 4px 4px;color:var(--muted);font-size:12px}.footer-brand{display:flex;align-items:center;gap:9px}.footer-brand img{width:30px;height:30px;border-radius:9px;object-fit:cover}.footer-brand div{display:flex;flex-direction:column;gap:2px}.social-links{display:flex;gap:8px}.social-links a{color:var(--text);text-decoration:none;border:1px solid var(--line);background:var(--card);padding:8px 10px;border-radius:10px;font-weight:800}.social-links a:hover{text-decoration:underline}
+.social-links{display:flex;gap:8px}.social-links a{color:var(--text);text-decoration:none;border:1px solid var(--line);background:var(--card);padding:8px 10px;border-radius:10px;font-weight:800}.social-links a:hover{text-decoration:underline}.header-social{flex:0 0 auto}.product-badge{display:inline-flex;align-items:center;margin-top:7px;padding:5px 8px;border-radius:999px;background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;font-size:10px;font-weight:900}.sold-count{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-size:12px;font-weight:800;margin:-3px 0 11px}.sold-count strong{color:var(--text);font-weight:900}
 body.dark .filter-btn,body.dark .filter-panel,body.dark .social-links a{background:#111827;color:#f8fafc;border-color:#253044}body.dark .live-pill{background:#10271a;color:#86efac;border-color:#1f5130}.filter-btn,.filter-panel,.social-links a,.trust,.cart-panel,.cart-header,.cart-footer,.quick-panel,.order-hero{color:var(--text)}
 body.dark .notice,body.dark .trust,body.dark .order-hero,body.dark .qrbox{background:#0f172a;border-color:#253044}body.dark .cart-panel{background:#0b1220;color:#f8fafc}body.dark .cart-header,body.dark .cart-footer{background:#0b1220;color:#f8fafc}body.dark .cat-chip{background:#111827;color:#f8fafc;border-color:#253044}body.dark .cat-chip.active{background:#f8fafc;color:#0f172a;border-color:#f8fafc}body.dark .product-meta span{background:#172033;color:#cbd5e1}body.dark .empty-shop{border-color:#253044}body.dark .cart-item{background:#111827;border-color:#253044}body.dark .cart-item-icon{background:#172033}body.dark .quick-close{background:#172033;color:#f8fafc}body.dark .status-wait{background:#3b2f0b;color:#fcd34d}body.dark .status-good{background:#0f3d24;color:#86efac}body.dark .status-danger{background:#3f1515;color:#fca5a5}body.dark .step:before{background:#263244;box-shadow:0 0 0 1px #475569}body.dark .step.done:before{background:#22c55e;box-shadow:0 0 0 1px #16a34a}body.dark .step.active:before{background:#f59e0b;box-shadow:0 0 0 1px #d97706}
 body.dark .back-shop-btn{background:#172033!important;color:#f8fafc!important;border-color:#253044}
-@media(max-width:520px){.filter-btn span{display:none}.filter-btn{width:44px;padding:11px 0}.filter-row{grid-template-columns:1fr}.order-actions{width:100%;justify-content:flex-start}.site-footer{flex-direction:column;align-items:flex-start}.social-links{width:100%}.social-links a{flex:1;text-align:center}.header-gif-wrap{min-width:42px;width:42px;height:48px}.header-gif{width:42px;height:48px}.head-actions{gap:6px}.live-pill{padding:7px 9px;font-size:11px}}
+@media(max-width:520px){.filter-btn span{display:none}.filter-btn{width:44px;padding:11px 0}.filter-row{grid-template-columns:1fr}.order-actions{width:100%;justify-content:flex-start}.header-social{gap:5px}.header-social a{padding:7px 8px;font-size:11px}.header-gif-wrap{min-width:42px;width:42px;height:48px}.header-gif{width:42px;height:48px}.head-actions{gap:6px}.live-pill{padding:7px 9px;font-size:11px}}
 </style>
 </head>
 
@@ -199,7 +199,7 @@ body.dark .back-shop-btn{background:#172033!important;color:#f8fafc!important;bo
 <div class="wrap">
   <header class="site-head">
     <div class="brand-wrap"><div class="brand-logo"><img src="logo-is.png" alt="iGet Sync" onerror="this.style.display='none';this.parentElement.textContent='IS';"></div><div><div class="brand">iGet Sync</div><div class="sub">Apple Tech Solutions</div></div></div>
-    <div class="head-actions"><span class="live-pill"><i class="live-dot"></i> Support Online</span><div class="header-gif-wrap" title="iGet Sync"><img class="header-gif" src="./loading.gif?v=2" alt="iGet Sync" decoding="async"></div><button id="themeBtn" class="icon-btn" type="button" title="Mode tampilan"><span class="theme-symbol">☾</span></button></div>
+    <div class="head-actions"><span class="live-pill"><i class="live-dot"></i> Support Online</span><div class="header-gif-wrap" title="iGet Sync"><img class="header-gif" src="./loading.gif?v=2" alt="iGet Sync" decoding="async"></div><div class="social-links header-social"><a href="https://www.instagram.com/igetsync/" target="_blank" rel="noopener noreferrer" aria-label="Instagram iGet Sync">Instagram</a><a href="https://www.tiktok.com/@igetsync" target="_blank" rel="noopener noreferrer" aria-label="TikTok iGet Sync">TikTok</a></div><button id="themeBtn" class="icon-btn" type="button" title="Mode tampilan"><span class="theme-symbol">☾</span></button></div>
   </header>
   <section class="hero"><div class="hero-row"><div><h1>Service Apple, dibuat simpel.</h1><p>Pilih layanan, checkout, lalu pantau pembayaran secara realtime. Semua dari satu halaman iGet Sync.</p><div class="hero-mini"><span>⚡ Proses cepat</span><span>🔒 Secure Order</span><span>🟢 Support Online</span></div></div><div class="live-pill" style="background:rgba(34,197,94,.12);border-color:rgba(134,239,172,.25);color:#bbf7d0"><i class="live-dot"></i> 24/7 Online</div></div></section>
 
@@ -252,14 +252,6 @@ body.dark .back-shop-btn{background:#172033!important;color:#f8fafc!important;bo
 
   <div id="quickView" class="quick-view"><div id="quickOverlay" class="quick-overlay"></div><div class="quick-panel"><button id="quickClose" class="quick-close" type="button">✕</button><div id="quickContent"></div></div></div>
   <div id="toast" class="toast"></div>
-
-  <footer class="site-footer">
-    <div class="footer-brand"><img src="logo-is.png" alt="iGet Sync" onerror="this.style.display='none';"><div><b>iGet Sync</b><span>Apple Tech Solutions</span></div></div>
-    <div class="social-links">
-      <a href="https://www.instagram.com/igetsync/" target="_blank" rel="noopener noreferrer" aria-label="Instagram iGet Sync">Instagram</a>
-      <a href="https://www.tiktok.com/@igetsync" target="_blank" rel="noopener noreferrer" aria-label="TikTok iGet Sync">TikTok</a>
-    </div>
-  </footer>
 
   <section id="orderCard" class="card hidden">
     <div class="order-head">
@@ -368,6 +360,9 @@ const cartDrawer = $("cartDrawer");
 let cart = [];
 let activeCategory = "";
 let sortMode = "default";
+let soldCounts = Object.create(null);
+let soldStream = null;
+let soldRefreshTimer = null;
 
 function apiReady(){
   return !!API_URL &&
@@ -431,6 +426,84 @@ function cropQrImage(dataUrl, topPercent, bottomPercent){
   });
 }
 
+function soldKey(category,service){
+  return String(category||"").trim().toLowerCase()+"::"+String(service||"").trim().toLowerCase();
+}
+
+function orderQuantity(order){
+  const direct=Number(order?.quantity ?? order?.qty ?? 0);
+  if(Number.isFinite(direct) && direct>0)return direct;
+  if(Array.isArray(order?.items)){
+    return order.items.reduce((sum,item)=>{
+      const q=Number(item?.quantity ?? item?.qty ?? 1);
+      return sum + (Number.isFinite(q) && q>0 ? q : 1);
+    },0);
+  }
+  return 1;
+}
+
+function calculateSoldCounts(data){
+  const next=Object.create(null);
+  if(data && typeof data === "object"){
+    Object.values(data).forEach(order=>{
+      if(!order || String(order.status||"").toUpperCase() !== "PAID") return;
+
+      if(Array.isArray(order.items) && order.items.length){
+        order.items.forEach(item=>{
+          const key=soldKey(item?.category ?? order.category,item?.service ?? item?.name ?? order.service);
+          const q=Number(item?.quantity ?? item?.qty ?? 1);
+          next[key]=(next[key]||0)+(Number.isFinite(q)&&q>0?q:1);
+        });
+        return;
+      }
+
+      const key=soldKey(order.category,order.service);
+      if(!order.service && !order.category) return;
+      next[key]=(next[key]||0)+orderQuantity(order);
+    });
+  }
+  soldCounts=next;
+}
+
+async function refreshSoldCounts(){
+  try{
+    const res=await fetch(FIREBASE_DATABASE_URL.replace(/\/+$/,"" )+"/publicOrders.json",{cache:"no-store"});
+    if(!res.ok) throw new Error("Firebase sold count HTTP "+res.status);
+    const data=await res.json();
+    calculateSoldCounts(data);
+    renderShop();
+  }catch(err){
+    console.warn("Gagal memperbarui jumlah terjual:",err);
+  }
+}
+
+function scheduleSoldRefresh(){
+  clearTimeout(soldRefreshTimer);
+  soldRefreshTimer=setTimeout(refreshSoldCounts,250);
+}
+
+function listenSoldCounts(){
+  if(soldStream){
+    try{soldStream.close();}catch(e){}
+    soldStream=null;
+  }
+
+  refreshSoldCounts();
+
+  try{
+    soldStream=new EventSource(FIREBASE_DATABASE_URL.replace(/\/+$/,"" )+"/publicOrders.json");
+    soldStream.addEventListener("put",scheduleSoldRefresh);
+    soldStream.addEventListener("patch",scheduleSoldRefresh);
+    soldStream.onerror=()=>console.warn("Firebase sold count stream reconnecting...");
+  }catch(err){
+    console.warn("Realtime sold count tidak tersedia:",err);
+  }
+}
+
+function getSoldCount(item){
+  return Number(soldCounts[soldKey(item?.category,item?.name)]||0);
+}
+
 async function loadServices(){
   if(!apiReady()){
     shopGrid.innerHTML='<div class="empty-shop">API belum dikonfigurasi.</div>';
@@ -441,14 +514,35 @@ async function loadServices(){
     const res=await fetch(API_URL+"?action=services",{cache:"no-store"});
     const data=await res.json();
     if(!data.ok) throw new Error(data.error||"Gagal mengambil layanan.");
-    services=Array.isArray(data.services)?data.services:[];
+    services=Array.isArray(data.services)?data.services.filter(isPublicCatalogService):[];
     renderFilterCategories();
     renderCategoryStrip();
     renderShop();
+    listenSoldCounts();
   }catch(err){
     shopGrid.innerHTML='<div class="empty-shop">Gagal memuat layanan.</div>';
     showFormError(err.message);
   }
+}
+
+function isPublicCatalogService(item){
+  const name=String(item?.name||"").trim().toLowerCase();
+  const price=Number(item?.price||0);
+  if(price<=0) return false;
+
+  // Sheet adalah sumber katalog. Layanan internal tetap bisa disembunyikan
+  // dengan nama, sementara layanan customer cukup diberi Aktif=YES di Sheet.
+  const blockedNames=[
+    "remove passcode macbook",
+    "owner extract info",
+    "bypass mdm",
+    "remove efi lock",
+    "source device center",
+    "source bypass ramdisk",
+    "akses tools",
+    "unlocktool automation bot"
+  ];
+  return !blockedNames.some(x=>name.includes(x));
 }
 
 function productIcon(category,service){
@@ -458,6 +552,15 @@ function productIcon(category,service){
   if(s.includes("icloud")) return "☁️";
   if(s.includes("software")) return "🛠️";
   return "";
+}
+
+function productVisual(item,extraClass="") {
+  const image=String(item?.image||"").trim();
+  if(image){
+    return `<img class="product-image ${extraClass}" src="${escapeHtml(image)}" alt="${escapeHtml(item?.name||"Layanan iGet Sync")}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">`+
+      `<span class="product-fallback">${productIcon(item?.category,item?.name)}</span>`;
+  }
+  return `<span class="product-fallback">${productIcon(item?.category,item?.name)}</span>`;
 }
 
 function renderCategoryStrip(){
@@ -482,7 +585,7 @@ function renderShop(){
   if(sortMode==="high") list.sort((a,b)=>(Number(b.price)||0)-(Number(a.price)||0));
   if(sortMode==="az") list.sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
   if(!list.length){shopGrid.innerHTML='<div class="empty-shop"><div style="font-size:35px">🔎</div><b>Layanan tidak ditemukan</b><div style="margin-top:5px">Coba kata kunci atau filter lain.</div></div>';return;}
-  shopGrid.innerHTML=list.map(x=>`<article class="product-card" data-product="${services.indexOf(x)}"><div class="product-icon">${productIcon(x.category,x.name)}</div><div class="product-cat">${escapeHtml(x.category)}</div><div class="product-name">${escapeHtml(x.name)}</div><div class="product-meta"><span>⚡ Fast</span><span>🔒 Secure</span></div><div class="product-price">${rupiah(x.price)}</div><div style="display:grid;grid-template-columns:1fr 44px;gap:7px"><button type="button" class="add-cart" data-i="${services.indexOf(x)}">+ Tambah</button><button type="button" class="secondary-btn quick-btn" data-q="${services.indexOf(x)}" title="Lihat detail">•••</button></div></article>`).join("");
+  shopGrid.innerHTML=list.map(x=>`<article class="product-card" data-product="${services.indexOf(x)}"><div class="product-icon">${productVisual(x)}</div><div class="product-cat">${escapeHtml(x.category)}</div>${x.badge?`<div class="product-badge">${escapeHtml(x.badge)}</div>`:""}<div class="product-name">${escapeHtml(x.name)}</div><div class="product-meta"><span>⚡ Fast</span><span>🔒 Secure</span></div><div class="product-price">${rupiah(x.price)}</div><div class="sold-count">🔥 Terjual <strong>${getSoldCount(x)}</strong></div><div style="display:grid;grid-template-columns:1fr 44px;gap:7px"><button type="button" class="add-cart" data-i="${services.indexOf(x)}">+ Tambah</button><button type="button" class="secondary-btn quick-btn" data-q="${services.indexOf(x)}" title="Lihat detail">•••</button></div></article>`).join("");
   shopGrid.querySelectorAll(".add-cart").forEach(btn=>btn.onclick=(e)=>{e.stopPropagation();addToCart(services[Number(btn.dataset.i)],btn.closest(".product-card"));});
   shopGrid.querySelectorAll(".quick-btn").forEach(btn=>btn.onclick=(e)=>{e.stopPropagation();openQuickView(services[Number(btn.dataset.q)]);});
   shopGrid.querySelectorAll(".product-card").forEach(card=>card.onclick=()=>openQuickView(services[Number(card.dataset.product)]));
@@ -498,12 +601,12 @@ function showToast(msg){const t=$("toast");t.textContent=msg;t.classList.remove(
 function serviceDescription(item){
   const raw=item.description??item.desc??item.details??item.detail??item.note??"";
   if(String(raw).trim()) return String(raw).trim();
-  return `Layanan ${item.name||"iGet Sync"} untuk perangkat ${item.category||"Apple"}. Pesanan diproses melalui sistem iGet Sync dengan pembayaran QRIS dan status order realtime.`;
+  return `Layanan ${item.name||"iGet Sync"}. Detail layanan dapat dilihat dari informasi yang dikelola di katalog iGet Sync.`;
 }
 
 function openQuickView(item){
   const q=$("quickView");
-  $("quickContent").innerHTML=`<div class="quick-icon">${productIcon(item.category,item.name)}</div><div class="product-cat">${escapeHtml(item.category||"Service")}</div><h2 style="margin:5px 0 0">${escapeHtml(item.name)}</h2><div class="quick-price">${rupiah(item.price)}</div><div class="quick-description"><div class="quick-description-title">Tentang Layanan</div><div class="quick-description-text">${escapeHtml(serviceDescription(item))}</div></div><div class="notice"><b>⚡ Layanan iGet Sync</b><div class="muted" style="margin-top:6px">Order online, pembayaran QRIS, dan status pembayaran realtime.</div></div><div class="quick-actions"><button id="quickAdd" class="primary" style="margin:0">+ Tambah ke Keranjang</button><button id="quickBuy" class="secondary-btn">Checkout Sekarang</button></div>`;
+  $("quickContent").innerHTML=`<div class="quick-icon">${productVisual(item)}</div><div class="product-cat">${escapeHtml(item.category||"Service")}</div><h2 style="margin:5px 0 0">${escapeHtml(item.name)}</h2><div class="quick-price">${rupiah(item.price)}</div><div class="sold-count" style="margin-top:2px">🔥 Terjual <strong>${getSoldCount(item)}</strong></div><div class="quick-description"><div class="quick-description-title">Tentang Layanan</div><div class="quick-description-text">${escapeHtml(serviceDescription(item))}</div></div><div class="notice"><b>⚡ Layanan iGet Sync</b><div class="muted" style="margin-top:6px">Order online, pembayaran QRIS, dan status pembayaran realtime.</div></div><div class="quick-actions"><button id="quickAdd" class="primary" style="margin:0">+ Tambah ke Keranjang</button><button id="quickBuy" class="secondary-btn">Checkout Sekarang</button></div>`;
   q.classList.add("open");
   $("quickAdd").onclick=()=>{addToCart(item);q.classList.remove("open")};
   $("quickBuy").onclick=()=>{addToCart(item);q.classList.remove("open");cartDrawer.classList.add("open");renderCart()};
@@ -769,6 +872,7 @@ async function requestCancelOrder(){
     if(!data.ok)throw new Error(data.error||"Gagal membatalkan order.");
     showToast("Order berhasil dibatalkan");
     if(data.order){currentOrder=data.order;renderOrder(data.order);}
+    setTimeout(()=>window.location.reload(),1000);
   }catch(err){
     // Jangan pura-pura mengubah status lokal. Jika backend belum punya action cancelOrder,
     // tampilkan pesan yang jelas agar order tetap aman.
