@@ -713,8 +713,25 @@ body.dark .support-shell .btn-link{background:#0f172a;border-color:#253044}
      This avoids requiring a Firebase Web App/API-key configuration in the browser. -->
 <script>
 const API_URL =
-  localStorage.getItem("IGS_ORDER_API_URL") ||
   "https://script.google.com/macros/s/AKfycbzYjJnBcyPsucFdAJlrPv40FN_Q_ucnMq8m636JzfRUhWo37oQUeqQQRjlTzgKDrWhPJw/exec";
+
+// Baca response Apps Script dengan aman. Jangan langsung response.json(),
+// karena Apps Script / proxy kadang dapat mengembalikan HTML error page.
+async function readApiJson(response, context="Server"){
+  const text = await response.text();
+  let data;
+  try{
+    data = JSON.parse(text);
+  }catch(e){
+    const preview = String(text || "").replace(/\s+/g," ").slice(0,120);
+    throw new Error(context + " mengembalikan response yang bukan JSON" +
+      (preview ? ": " + preview : "."));
+  }
+  if(!response.ok){
+    throw new Error(data?.error || context + " HTTP " + response.status);
+  }
+  return data;
+}
 
 const FIREBASE_DATABASE_URL =
   "https://order-qr-58fd0-default-rtdb.asia-southeast1.firebasedatabase.app";
@@ -777,10 +794,12 @@ let sortMode = "default";
 let soldCounts = Object.create(null);
 let soldStream = null;
 let soldRefreshTimer = null;
-let accessToken = localStorage.getItem("IGS_ACCESS_TOKEN") || "";
-let accessRequestId = localStorage.getItem("IGS_ACCESS_REQUEST_ID") || "";
+let accessToken = sessionStorage.getItem("IGS_ACCESS_TOKEN") || "";
+let accessRequestId = sessionStorage.getItem("IGS_ACCESS_REQUEST_ID") || "";
 let accessApproved = false;
 let accessPollTimer = null;
+
+try{ localStorage.removeItem("IGS_ORDER_API_URL"); }catch(e){}
 
 function apiReady(){
   return !!API_URL &&
@@ -929,7 +948,7 @@ async function loadServices(){
   }
   try{
     const res=await fetch(API_URL+"?action=services",{cache:"no-store"});
-    const data=await res.json();
+    const data=await readApiJson(res,"API layanan");
     if(!data.ok) throw new Error(data.error||"Gagal mengambil layanan.");
     services=Array.isArray(data.services)?data.services.filter(isPublicCatalogService):[];
     renderFilterCategories();
@@ -963,9 +982,16 @@ function setAccessState(type,title,text){
   box.classList.remove("hidden");
   label.innerHTML=`<b>${escapeHtml(title||"")}</b>${escapeHtml(text||"")}`;
   if(type==="success"){
+    gif.style.display="";
     gif.src="./success.gif?v=4";
     gif.alt="Akses disetujui";
+  }else if(type==="rejected"){
+    // Jangan tampilkan processing.gif saat request ditolak.
+    gif.removeAttribute("src");
+    gif.alt="Akses ditolak";
+    gif.style.display="none";
   }else{
+    gif.style.display="";
     gif.src="./processing.gif?v=4";
     gif.alt="Memproses akses";
   }
@@ -997,9 +1023,26 @@ async function tryRestoreAccess(){
   }catch(e){console.warn("Restore access gagal:",e)}
   accessToken="";
   accessApproved=false;
-  localStorage.removeItem("IGS_ACCESS_TOKEN");
+  sessionStorage.removeItem("IGS_ACCESS_TOKEN");
   lockCatalogUi();
   return false;
+}
+
+async function getAccessClientInfo(){
+  const info={
+    userAgent:navigator.userAgent||"",
+    platform:navigator.userAgentData?.platform || navigator.platform || "",
+    language:navigator.language||"",
+    timezone:Intl.DateTimeFormat().resolvedOptions().timeZone||"",
+    screen:(window.screen?`${window.screen.width}x${window.screen.height}`:""),
+    viewport:`${window.innerWidth||0}x${window.innerHeight||0}`,
+    referrer:document.referrer||""
+  };
+  try{
+    const r=await fetch("https://api64.ipify.org?format=json",{cache:"no-store"});
+    if(r.ok){const d=await r.json();info.ip=String(d.ip||"");}
+  }catch(e){info.ip="";}
+  return info;
 }
 
 async function submitAccessRequest(){
@@ -1009,15 +1052,16 @@ async function submitAccessRequest(){
   btn.disabled=true;btn.textContent="Mengirim...";
   setAccessState("pending","Mengirim permintaan...","Tunggu sebentar, request sedang dikirim ke admin.");
   try{
-    const response=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"requestAccess",whatsapp:wa})});
-    const data=await response.json();
+    const clientInfo=await getAccessClientInfo();
+    const response=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"requestAccess",whatsapp:wa,clientInfo:clientInfo})});
+    const data=await readApiJson(response,"Permintaan akses");
     if(!data.ok) throw new Error(data.error||"Gagal meminta akses.");
     accessRequestId=data.requestId||"";
     if(data.status==="APPROVED" && data.accessToken){
       await applyApprovedAccess(data.accessToken,data.expiresAt||"");
       return;
     }
-    localStorage.setItem("IGS_ACCESS_REQUEST_ID",accessRequestId);
+    sessionStorage.setItem("IGS_ACCESS_REQUEST_ID",accessRequestId);
     setAccessState("pending","Menunggu persetujuan admin","Request sudah masuk. Halaman akan mengecek persetujuan otomatis.");
     startAccessPolling();
   }catch(err){
@@ -1037,7 +1081,7 @@ async function checkAccessStatus(){
   if(!accessRequestId || !apiReady())return;
   try{
     const res=await fetch(API_URL+"?action=accessStatus&requestId="+encodeURIComponent(accessRequestId),{cache:"no-store"});
-    const data=await res.json();
+    const data=await readApiJson(res,"Status akses");
     if(!data.ok)return;
     if(data.status==="PENDING"){
       setAccessState("pending","Menunggu persetujuan admin","Request sedang diperiksa. Jangan tutup halaman.");
@@ -1050,16 +1094,20 @@ async function checkAccessStatus(){
     }
     if(data.status==="REJECTED"){
       clearInterval(accessPollTimer);
-      localStorage.removeItem("IGS_ACCESS_REQUEST_ID");
+      sessionStorage.removeItem("IGS_ACCESS_REQUEST_ID");
       accessRequestId="";
-      $("accessBtn").disabled=false;$("accessBtn").textContent="Minta Akses Harga";
-      setAccessState("pending","Akses belum disetujui","Kamu bisa mengajukan request lagi jika diperlukan.");
+      // Wajib input nomor WA lagi setelah request ditolak.
+      $("accessWhatsapp").value="";
+      $("accessBtn").disabled=false;
+      $("accessBtn").textContent="Minta Akses Harga";
+      setAccessState("rejected","❌ Akses ditolak","Silakan masukkan nomor WhatsApp lagi untuk mengajukan request baru.");
+      $("accessWhatsapp").focus();
       return;
     }
     if(data.status==="EXPIRED"){
       clearInterval(accessPollTimer);
-      localStorage.removeItem("IGS_ACCESS_TOKEN");
-      localStorage.removeItem("IGS_ACCESS_REQUEST_ID");
+      sessionStorage.removeItem("IGS_ACCESS_TOKEN");
+      sessionStorage.removeItem("IGS_ACCESS_REQUEST_ID");
       accessToken="";accessRequestId="";lockCatalogUi();
       setAccessState("pending","Akses sudah expired","Silakan minta akses kembali.");
     }
@@ -1069,12 +1117,12 @@ async function checkAccessStatus(){
 async function applyApprovedAccess(token,expiresAt){
   accessToken=String(token||"");
   accessApproved=!!accessToken;
-  localStorage.setItem("IGS_ACCESS_TOKEN",accessToken);
-  if(accessRequestId)localStorage.setItem("IGS_ACCESS_REQUEST_ID",accessRequestId);
+  sessionStorage.setItem("IGS_ACCESS_TOKEN",accessToken);
+  if(accessRequestId)sessionStorage.setItem("IGS_ACCESS_REQUEST_ID",accessRequestId);
   setAccessState("success","Akses disetujui ✓",expiresAt?"Harga layanan sekarang terbuka.":"Harga layanan sekarang terbuka.");
   $("accessBtn").disabled=true;$("accessBtn").textContent="Akses Aktif";
   const res=await fetch(API_URL+"?action=privateServices&accessToken="+encodeURIComponent(accessToken),{cache:"no-store"});
-  const data=await res.json();
+  const data=await readApiJson(res,"API akses harga");
   if(!data.ok || !data.authorized) throw new Error(data.error||"Akses tidak valid.");
   services=Array.isArray(data.services)?data.services.filter(isPublicCatalogService):[];
   renderFilterCategories();renderCategoryStrip();renderShop();
@@ -1235,7 +1283,7 @@ async function createOrder(){
   createBtn.disabled=true;createBtn.textContent="Membuat pesanan...";
   try{
     const response=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"createOrder",category:item.category,service:item.name,name,whatsapp,email,device,serial,note,paymentMethod,accessToken})});
-    const data=await response.json();
+    const data=await readApiJson(response,"Pembuatan order");
     if(!data.ok)throw new Error(data.error||"Gagal membuat pesanan.");
     cart=[];renderCart();openOrder(data.order);
   }catch(err){showFormError(err.message);}
@@ -1310,7 +1358,7 @@ function fallbackPoll(orderId){
         {cache:"no-store"}
       );
 
-      const data = await res.json();
+      const data = await readApiJson(res,"Status order");
 
       if(data.ok && data.order){
         currentOrder = data.order;
@@ -1434,7 +1482,7 @@ async function requestCancelOrder(){
   btn.disabled=true;btn.textContent="Membatalkan...";
   try{
     const response=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"cancelOrder",orderId:currentOrder.id})});
-    const data=await response.json();
+    const data=await readApiJson(response,"Pembatalan order");
     if(!data.ok)throw new Error(data.error||"Gagal membatalkan order.");
     showToast("Order berhasil dibatalkan");
     if(data.order){currentOrder=data.order;renderOrder(data.order);}
