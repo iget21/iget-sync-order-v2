@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>iGet Sync — Order</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="logo-is.png">
+<link rel="preload" as="image" href="./loading.gif?v=2">
 
 <style>
 :root{
@@ -119,80 +122,144 @@ button{
   .field.full{grid-column:auto}
   .detail{grid-template-columns:110px 1fr}
 }
+
+/* iGet Sync V2 Marketplace */
+.market-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.search{position:relative;flex:1}.search input{padding-left:42px}
+.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);pointer-events:none}
+.cart-btn{position:relative;background:#111827;color:#fff;padding:12px 15px;white-space:nowrap}
+.cart-count{position:absolute;right:-6px;top:-7px;min-width:21px;height:21px;border-radius:999px;background:#ef4444;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
+.category-strip{display:flex;gap:8px;overflow-x:auto;padding:2px 1px 12px;scrollbar-width:none}
+.category-strip::-webkit-scrollbar{display:none}
+.cat-chip{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:999px;padding:9px 14px;font-size:13px;font-weight:800;white-space:nowrap}
+.cat-chip.active{background:#111827;color:#fff}
+.shop-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.product-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 10px 30px rgba(15,23,42,.06);transition:.18s}
+.product-card:hover{transform:translateY(-3px)}
+.product-icon{height:125px;border-radius:14px;background:linear-gradient(135deg,#f3f4f6,#fff);display:flex;align-items:center;justify-content:center;font-size:48px;margin-bottom:12px}
+.product-cat{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase}
+.product-name{font-size:15px;font-weight:900;margin-top:5px;min-height:40px}
+.product-price{font-size:18px;font-weight:900;margin:9px 0 12px}
+.add-cart{width:100%;background:#111827;color:#fff;padding:11px 12px}
+.empty-shop{grid-column:1/-1;text-align:center;padding:35px;color:var(--muted);border:1px dashed #d1d5db;border-radius:18px}
+.cart-drawer{position:fixed;inset:0;z-index:1000;visibility:hidden;pointer-events:none}
+.cart-drawer.open{visibility:visible;pointer-events:auto}
+.cart-overlay{position:absolute;inset:0;background:rgba(15,23,42,.35);opacity:0;transition:.25s}
+.cart-drawer.open .cart-overlay{opacity:1}
+.cart-panel{position:absolute;right:0;top:0;height:100%;width:min(430px,94vw);background:#fff;box-shadow:-20px 0 60px rgba(15,23,42,.18);transform:translateX(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column}
+.cart-drawer.open .cart-panel{transform:translateX(0)}
+.cart-header{display:flex;align-items:center;justify-content:space-between;padding:18px;border-bottom:1px solid var(--line)}
+.cart-header h3{margin:0}.close-cart{background:#f3f4f6;padding:9px 12px}
+.cart-items{flex:1;overflow:auto;padding:14px}
+.cart-item{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:11px;margin-bottom:9px}
+.cart-item-icon{width:48px;height:48px;border-radius:12px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:24px}
+.cart-item-info{flex:1}.cart-item-name{font-weight:900;font-size:14px}.cart-item-price{font-size:13px;color:var(--muted);margin-top:3px}
+.cart-remove{background:#fee2e2;color:#991b1b;padding:7px 9px;font-size:11px}
+.cart-footer{border-top:1px solid var(--line);padding:16px}.cart-total{display:flex;justify-content:space-between;font-weight:900;font-size:18px;margin-bottom:12px}
+.fly-product{position:fixed;z-index:2000;pointer-events:none;border-radius:14px;overflow:hidden;box-shadow:0 15px 40px rgba(15,23,42,.2);background:#fff;will-change:transform,opacity}
+.cart-bump{animation:cartBump .42s cubic-bezier(.2,.8,.2,1)}
+@keyframes cartBump{0%{transform:scale(1)}35%{transform:scale(1.18) rotate(-3deg)}65%{transform:scale(.94) rotate(2deg)}100%{transform:scale(1)}}
+.cart-pop{animation:cartPop .38s cubic-bezier(.2,.8,.2,1)}
+@keyframes cartPop{0%{transform:scale(.5);opacity:.2}70%{transform:scale(1.18);opacity:1}100%{transform:scale(1)}}
+@media(max-width:800px){.shop-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.wrap{padding:18px 12px 45px}.market-head{align-items:stretch}.cart-btn{width:48px;font-size:0;padding:11px}.cart-btn .cart-count{font-size:11px}.shop-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.product-card{padding:10px}.product-icon{height:100px;font-size:40px}.product-name{font-size:13px}.product-price{font-size:16px}}
+
+
+/* ===== iGet Sync Premium Upgrade ===== */
+:root{--bg:#f4f6fa;--card:#fff;--text:#0f172a;--muted:#64748b;--line:#e5e7eb;--accent:#111827;--good:#16a34a;--danger:#dc2626;--warn:#f59e0b;--glass:rgba(255,255,255,.78)}
+body{background:radial-gradient(circle at 10% 0%,rgba(99,102,241,.10),transparent 28%),radial-gradient(circle at 100% 10%,rgba(14,165,233,.08),transparent 25%),var(--bg);transition:background .3s,color .3s}
+.wrap{max-width:1120px;padding-top:22px}.site-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}.brand-wrap{display:flex;align-items:center;gap:12px}.brand-logo{width:44px;height:44px;border-radius:14px;background:#111827;color:#fff;display:grid;place-items:center;font-weight:950;font-size:18px;box-shadow:0 10px 25px rgba(15,23,42,.18)}.brand{font-size:24px}.sub{font-size:13px}.head-actions{display:flex;align-items:center;gap:8px}.icon-btn{width:42px;height:42px;padding:0;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;border-radius:13px}.live-pill{display:inline-flex;align-items:center;gap:7px;border:1px solid #bbf7d0;background:#f0fdf4;color:#166534;border-radius:999px;padding:8px 11px;font-size:12px;font-weight:850}.live-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.12);animation:pulseDot 1.8s infinite}@keyframes pulseDot{50%{box-shadow:0 0 0 7px rgba(34,197,94,0)}}
+.hero{position:relative;overflow:hidden;border-radius:26px;padding:28px;background:linear-gradient(135deg,#111827,#263247 60%,#0f172a);color:#fff;margin-bottom:16px;box-shadow:0 24px 70px rgba(15,23,42,.18)}.hero:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;right:-70px;top:-100px;background:rgba(255,255,255,.09)}.hero h1{margin:0;font-size:clamp(27px,4vw,43px);letter-spacing:-1.4px}.hero p{margin:9px 0 0;color:#cbd5e1;max-width:650px}.hero-row{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;position:relative;z-index:1}.hero-mini{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.hero-mini span{padding:8px 11px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);border-radius:999px;font-size:12px}
+.market-head{position:sticky;top:10px;z-index:30;padding:8px;background:var(--glass);backdrop-filter:blur(14px);border:1px solid rgba(229,231,235,.8);border-radius:18px}.search{box-shadow:0 8px 25px rgba(15,23,42,.05)}.category-strip{scrollbar-width:none}.category-strip::-webkit-scrollbar{display:none}.cat-chip{transition:.2s}.cat-chip:hover{transform:translateY(-1px)}
+.product-card{position:relative;transition:transform .22s,box-shadow .22s;border:1px solid var(--line);background:var(--card);cursor:pointer}.product-card:active{transform:scale(.985)}.product-card:hover{transform:translateY(-5px);box-shadow:0 18px 45px rgba(15,23,42,.12)}.product-icon{background:linear-gradient(145deg,#f8fafc,#eef2f7);position:relative;overflow:hidden}.product-icon:after{content:"";position:absolute;inset:auto -25px -45px auto;width:100px;height:100px;border-radius:50%;background:rgba(99,102,241,.07)}.product-meta{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 12px}.product-meta span{font-size:10px;font-weight:800;padding:5px 7px;border-radius:999px;background:#f1f5f9;color:#475569}.add-cart{transition:.18s}.add-cart:hover{filter:brightness(.92);transform:translateY(-1px)}
+.quick-view{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;padding:18px}.quick-view.open{display:flex}.quick-overlay{position:absolute;inset:0;background:rgba(15,23,42,.48);backdrop-filter:blur(5px)}.quick-panel{position:relative;width:min(520px,100%);max-height:90vh;overflow:auto;background:var(--card);border-radius:25px;padding:22px;box-shadow:0 30px 100px rgba(15,23,42,.3);animation:modalIn .24s ease}.quick-close{position:absolute;right:14px;top:14px;background:#f1f5f9;width:38px;height:38px;padding:0}.quick-icon{height:170px;border-radius:20px;background:linear-gradient(145deg,#f8fafc,#e2e8f0);display:grid;place-items:center;font-size:72px;margin-bottom:18px}.quick-price{font-size:30px;font-weight:950;margin:8px 0 15px}.quick-description{border:1px solid var(--line);background:#f8fafc;border-radius:16px;padding:14px;margin:0 0 14px}.quick-description-title{font-size:13px;font-weight:900;margin-bottom:7px}.quick-description-text{font-size:13px;line-height:1.65;color:var(--muted);white-space:pre-line}.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.secondary-btn{background:#f1f5f9;color:#0f172a;width:100%}@keyframes modalIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.trust-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.trust{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:13px}.trust b{display:block;font-size:13px}.trust span{font-size:11px;color:var(--muted)}
+.timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:22px}.step{position:relative;text-align:center;color:#94a3b8;font-size:10px;font-weight:850}.step:before{content:"";display:block;width:24px;height:24px;border-radius:50%;background:#e2e8f0;margin:0 auto 7px;border:5px solid var(--card);box-shadow:0 0 0 1px #cbd5e1}.step.done{color:#166534}.step.done:before{background:#22c55e;box-shadow:0 0 0 1px #16a34a}.step.active{color:#92400e}.step.active:before{background:#f59e0b;box-shadow:0 0 0 1px #d97706;animation:stepPulse 1.4s infinite}@keyframes stepPulse{50%{transform:scale(1.12)}}
+.order-hero{border-radius:20px;background:linear-gradient(145deg,#f8fafc,#eef2f7);padding:18px;margin-top:16px}.copy-id{font-size:11px;background:#fff;border:1px solid var(--line);padding:7px 9px;border-radius:9px;font-weight:800}.qrbox{background:linear-gradient(145deg,#fafafa,#f1f5f9)}.qrbox img{box-shadow:0 12px 35px rgba(15,23,42,.12)}
+.toast{position:fixed;left:50%;bottom:22px;z-index:2000;transform:translate(-50%,18px);opacity:0;pointer-events:none;background:#111827;color:#fff;padding:11px 15px;border-radius:999px;font-size:13px;font-weight:800;box-shadow:0 15px 40px rgba(15,23,42,.25);transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
+body.dark{--bg:#090d15;--card:#111827;--text:#f8fafc;--muted:#94a3b8;--line:#253044;--glass:rgba(17,24,39,.82);background:#090d15}body.dark input,body.dark select,body.dark textarea{background:#0f172a;color:#f8fafc;border-color:#253044}body.dark option{background:#0f172a;color:#f8fafc}body.dark input::placeholder,body.dark textarea::placeholder{color:#64748b}body.dark .product-icon,body.dark .quick-icon{background:linear-gradient(145deg,#172033,#0f172a)}body.dark .secondary-btn,body.dark .close-cart,body.dark .copy-id{background:#172033;color:#f8fafc;border-color:#253044}.theme-symbol{font-size:18px}
+@media(max-width:700px){.hero-row{align-items:flex-start;flex-direction:column}.live-pill{align-self:flex-start}.trust-row{grid-template-columns:1fr}.site-head{align-items:flex-start}.head-actions{flex-wrap:wrap;justify-content:flex-end}.brand{font-size:21px}.hero{padding:22px}.quick-actions{grid-template-columns:1fr}.market-head{top:5px}}
+
+
+/* ===== V2 Final Polish ===== */
+.brand-logo{overflow:hidden;flex:0 0 auto}.brand-logo img{width:100%;height:100%;object-fit:cover;display:block}
+.header-gif{width:52px;height:58px;object-fit:contain;display:block;flex:0 0 auto;border-radius:12px;filter:drop-shadow(0 8px 16px rgba(15,23,42,.14));transition:transform .22s ease,filter .22s ease}.header-gif:hover{transform:translateY(-2px) scale(1.04);filter:drop-shadow(0 11px 20px rgba(15,23,42,.2))}.header-gif-wrap{display:flex;align-items:center;justify-content:center;min-width:52px;height:58px}
+.filter-btn{background:var(--card);color:var(--text);border:1px solid var(--line);padding:11px 13px;white-space:nowrap}.filter-btn:hover{background:var(--soft,#f8fafc)}
+.filter-panel{margin:10px 0 12px;padding:14px;border:1px solid var(--line);background:var(--card);border-radius:16px;animation:filterIn .18s ease}.filter-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.filter-row>div{display:flex;flex-direction:column;gap:6px}.filter-row label{font-size:11px;color:var(--muted)}.filter-row select{padding:10px 12px}.filter-clear{margin-top:10px;width:100%}@keyframes filterIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+.order-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.cancel-order-btn{background:#fee2e2;color:#991b1b;border:1px solid #fecaca;padding:8px 11px;font-size:12px}.cancel-order-btn:hover{filter:brightness(.97)}
+.site-footer{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:20px 4px 4px;color:var(--muted);font-size:12px}.footer-brand{display:flex;align-items:center;gap:9px}.footer-brand img{width:30px;height:30px;border-radius:9px;object-fit:cover}.footer-brand div{display:flex;flex-direction:column;gap:2px}.social-links{display:flex;gap:8px}.social-links a{color:var(--text);text-decoration:none;border:1px solid var(--line);background:var(--card);padding:8px 10px;border-radius:10px;font-weight:800}.social-links a:hover{text-decoration:underline}
+body.dark .filter-btn,body.dark .filter-panel,body.dark .social-links a{background:#111827;color:#f8fafc;border-color:#253044}body.dark .live-pill{background:#10271a;color:#86efac;border-color:#1f5130}.filter-btn,.filter-panel,.social-links a,.trust,.cart-panel,.cart-header,.cart-footer,.quick-panel,.order-hero{color:var(--text)}
+body.dark .notice,body.dark .trust,body.dark .order-hero,body.dark .qrbox{background:#0f172a;border-color:#253044}body.dark .cart-panel{background:#0b1220;color:#f8fafc}body.dark .cart-header,body.dark .cart-footer{background:#0b1220;color:#f8fafc}body.dark .cat-chip{background:#111827;color:#f8fafc;border-color:#253044}body.dark .cat-chip.active{background:#f8fafc;color:#0f172a;border-color:#f8fafc}body.dark .product-meta span{background:#172033;color:#cbd5e1}body.dark .empty-shop{border-color:#253044}body.dark .cart-item{background:#111827;border-color:#253044}body.dark .cart-item-icon{background:#172033}body.dark .quick-close{background:#172033;color:#f8fafc}body.dark .status-wait{background:#3b2f0b;color:#fcd34d}body.dark .status-good{background:#0f3d24;color:#86efac}body.dark .status-danger{background:#3f1515;color:#fca5a5}body.dark .step:before{background:#263244;box-shadow:0 0 0 1px #475569}body.dark .step.done:before{background:#22c55e;box-shadow:0 0 0 1px #16a34a}body.dark .step.active:before{background:#f59e0b;box-shadow:0 0 0 1px #d97706}
+body.dark .back-shop-btn{background:#172033!important;color:#f8fafc!important;border-color:#253044}
+@media(max-width:520px){.filter-btn span{display:none}.filter-btn{width:44px;padding:11px 0}.filter-row{grid-template-columns:1fr}.order-actions{width:100%;justify-content:flex-start}.site-footer{flex-direction:column;align-items:flex-start}.social-links{width:100%}.social-links a{flex:1;text-align:center}.header-gif-wrap{min-width:42px;width:42px;height:48px}.header-gif{width:42px;height:48px}.head-actions{gap:6px}.live-pill{padding:7px 9px;font-size:11px}}
 </style>
 </head>
 
 <body>
 <div class="wrap">
-  <header>
-    <div class="brand">iGet Sync</div>
-    <div class="sub">Order Service — Secure Payment</div>
+  <header class="site-head">
+    <div class="brand-wrap"><div class="brand-logo"><img src="logo-is.png" alt="iGet Sync" onerror="this.style.display='none';this.parentElement.textContent='IS';"></div><div><div class="brand">iGet Sync</div><div class="sub">Apple Tech Solutions</div></div></div>
+    <div class="head-actions"><span class="live-pill"><i class="live-dot"></i> Support Online</span><div class="header-gif-wrap" title="iGet Sync"><img class="header-gif" src="./loading.gif?v=2" alt="iGet Sync" decoding="async"></div><button id="themeBtn" class="icon-btn" type="button" title="Mode tampilan"><span class="theme-symbol">☾</span></button></div>
   </header>
+  <section class="hero"><div class="hero-row"><div><h1>Service Apple, dibuat simpel.</h1><p>Pilih layanan, checkout, lalu pantau pembayaran secara realtime. Semua dari satu halaman iGet Sync.</p><div class="hero-mini"><span>⚡ Proses cepat</span><span>🔒 Secure Order</span><span>🟢 Support Online</span></div></div><div class="live-pill" style="background:rgba(34,197,94,.12);border-color:rgba(134,239,172,.25);color:#bbf7d0"><i class="live-dot"></i> 24/7 Online</div></div></section>
 
-  <section id="formCard" class="card">
-    <div class="notice">
-      <b>Buat Pesanan</b>
-      <div class="muted" style="margin-top:5px">
-        Pilih layanan, isi data perangkat, lalu lanjutkan ke pembayaran QRIS.
-      </div>
+  <section id="shopCard" class="card">
+    <div class="market-head">
+      <div class="search"><span class="search-icon">⌕</span><input id="shopSearch" placeholder="Cari layanan..." autocomplete="off"></div>
+      <button id="filterBtn" class="filter-btn" type="button">⚙️ <span>Filter</span></button>
+      <button id="cartBtn" class="cart-btn" type="button">🛒 <span id="cartCount" class="cart-count">0</span></button>
     </div>
-
-    <div class="grid">
-      <div class="field">
-        <label>Kategori</label>
-        <select id="category">
-          <option value="">Memuat...</option>
-        </select>
+    <div id="categoryStrip" class="category-strip"></div>
+    <div id="filterPanel" class="filter-panel hidden">
+      <div class="filter-row">
+        <div><label for="filterCategory">Kategori</label><select id="filterCategory"><option value="">Semua kategori</option></select></div>
+        <div><label for="filterSort">Urutkan</label><select id="filterSort"><option value="default">Rekomendasi</option><option value="low">Harga terendah</option><option value="high">Harga tertinggi</option><option value="az">Nama A–Z</option></select></div>
       </div>
-
-      <div class="field">
-        <label>Layanan</label>
-        <select id="service" disabled>
-          <option value="">Pilih kategori dulu</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label>Nama</label>
-        <input id="name" placeholder="Nama kamu">
-      </div>
-
-      <div class="field">
-        <label>WhatsApp</label>
-        <input id="whatsapp" placeholder="08xxxxxxxxxx" inputmode="tel">
-      </div>
-
-      <div class="field">
-        <label>Email</label>
-        <input id="email" type="email" placeholder="opsional">
-      </div>
-
-      <div class="field">
-        <label>Device</label>
-        <input id="device" placeholder="Contoh: iPhone 13">
-      </div>
-
-      <div class="field">
-        <label>IMEI / Serial</label>
-        <input id="serial" placeholder="opsional">
-      </div>
-
-      <div class="field">
-        <label>Metode Pembayaran</label>
-        <select id="paymentMethod">
-          <option value="QRIS">QRIS</option>
-        </select>
-      </div>
-
-      <div class="field full">
-        <label>Catatan</label>
-        <textarea id="note" placeholder="Informasi tambahan (opsional)"></textarea>
-      </div>
+      <button id="clearFilterBtn" class="secondary-btn filter-clear" type="button">Reset Filter</button>
     </div>
-
-    <div id="formError" class="error hidden"></div>
-    <button id="createBtn" class="primary">Buat Pesanan</button>
+    <div class="notice"><b>Layanan iGet Sync</b><div class="muted" style="margin-top:5px">Pilih layanan seperti etalase. Tambahkan ke keranjang lalu checkout.</div></div>
+    <div id="shopGrid" class="shop-grid"><div class="empty-shop">Memuat layanan...</div></div>
+    <div class="trust-row"><div class="trust"><b>⚡ Fast Response</b><span>Order langsung masuk ke sistem.</span></div><div class="trust"><b>🔐 Secure Payment</b><span>QRIS ditampilkan otomatis.</span></div><div class="trust"><b>📡 Realtime Status</b><span>Status order tanpa refresh.</span></div></div>
   </section>
+
+  <section id="checkoutCard" class="card hidden">
+    <div class="order-head"><div><div class="muted">Checkout</div><div class="order-id">Data Customer</div></div>
+      <button id="backShopBtn" class="back-shop-btn" type="button" style="background:#f3f4f6">← Kembali</button></div>
+    <div id="checkoutItems" class="notice" style="margin-top:18px"></div>
+    <div class="grid">
+      <div class="field"><label>Nama</label><input id="name" placeholder="Nama kamu"></div>
+      <div class="field"><label>WhatsApp</label><input id="whatsapp" placeholder="08xxxxxxxxxx" inputmode="tel"></div>
+      <div class="field"><label>Email</label><input id="email" type="email" placeholder="opsional"></div>
+      <div class="field"><label>Device</label><input id="device" placeholder="Contoh: iPhone 13"></div>
+      <div class="field"><label>IMEI / Serial</label><input id="serial" placeholder="opsional"></div>
+      <div class="field"><label>Metode Pembayaran</label><select id="paymentMethod"><option value="QRIS">QRIS</option></select></div>
+      <div class="field full"><label>Catatan</label><textarea id="note" placeholder="Informasi tambahan (opsional)"></textarea></div>
+    </div>
+    <div id="formError" class="error hidden"></div>
+    <button id="createBtn" class="primary">Lanjutkan Pembayaran</button>
+  </section>
+
+  <div id="cartDrawer" class="cart-drawer">
+    <div id="cartOverlay" class="cart-overlay"></div>
+    <aside class="cart-panel">
+      <div class="cart-header"><h3>🛒 Keranjang</h3><button id="closeCartBtn" class="close-cart" type="button">✕</button></div>
+      <div id="cartItems" class="cart-items"></div>
+      <div class="cart-footer"><div class="cart-total"><span>Total</span><span id="cartTotal">Rp0</span></div>
+        <button id="checkoutBtn" class="primary" style="margin-top:0">Checkout</button>
+      </div>
+    </aside>
+  </div>
+
+  <div id="quickView" class="quick-view"><div id="quickOverlay" class="quick-overlay"></div><div class="quick-panel"><button id="quickClose" class="quick-close" type="button">✕</button><div id="quickContent"></div></div></div>
+  <div id="toast" class="toast"></div>
+
+  <footer class="site-footer">
+    <div class="footer-brand"><img src="logo-is.png" alt="iGet Sync" onerror="this.style.display='none';"><div><b>iGet Sync</b><span>Apple Tech Solutions</span></div></div>
+    <div class="social-links">
+      <a href="https://www.instagram.com/igetsync/" target="_blank" rel="noopener noreferrer" aria-label="Instagram iGet Sync">Instagram</a>
+      <a href="https://www.tiktok.com/@igetsync" target="_blank" rel="noopener noreferrer" aria-label="TikTok iGet Sync">TikTok</a>
+    </div>
+  </footer>
 
   <section id="orderCard" class="card hidden">
     <div class="order-head">
@@ -200,7 +267,7 @@ button{
         <div class="muted">Order ID</div>
         <div id="orderId" class="order-id">-</div>
       </div>
-      <div id="statusBadge" class="badge status-wait">WAITING_PAYMENT</div>
+      <div class="order-actions"><div id="statusBadge" class="badge status-wait">WAITING_PAYMENT</div><button id="cancelOrderBtn" class="cancel-order-btn hidden" type="button">Batalkan Order</button></div>
     </div>
 
     <div style="margin-top:20px">
@@ -214,6 +281,8 @@ button{
       <div>Device</div><div id="detailDevice">-</div>
       <div>Nama</div><div id="detailName">-</div>
     </div>
+
+    <div id="orderTimeline" class="timeline"><div class="step done">ORDER<br>DIBUAT</div><div class="step active">MENUNGGU<br>PEMBAYARAN</div><div class="step">DIBAYAR</div><div class="step">DIPROSES</div><div class="step">SELESAI</div></div>
 
     <div id="paymentNotice" class="notice" style="margin-top:20px">
       <b>Menunggu QRIS</b>
@@ -282,9 +351,23 @@ let timerInterval = null;
 let lastRenderedQr = ""; // cache supaya tidak crop ulang gambar yang sama berkali-kali
 
 const $ = id => document.getElementById(id);
-const categoryEl = $("category");
-const serviceEl = $("service");
 const createBtn = $("createBtn");
+const shopGrid = $("shopGrid");
+const categoryStrip = $("categoryStrip");
+const shopSearch = $("shopSearch");
+const cartBtn = $("cartBtn");
+const filterBtn = $("filterBtn");
+const filterPanel = $("filterPanel");
+const filterCategory = $("filterCategory");
+const filterSort = $("filterSort");
+const clearFilterBtn = $("clearFilterBtn");
+const cartCount = $("cartCount");
+const cartItems = $("cartItems");
+const cartTotal = $("cartTotal");
+const cartDrawer = $("cartDrawer");
+let cart = [];
+let activeCategory = "";
+let sortMode = "default";
 
 function apiReady(){
   return !!API_URL &&
@@ -350,118 +433,151 @@ function cropQrImage(dataUrl, topPercent, bottomPercent){
 
 async function loadServices(){
   if(!apiReady()){
-    categoryEl.innerHTML =
-      '<option value="">API belum dikonfigurasi</option>';
-    showFormError(
-      "Order V2 sudah terpasang, tetapi API backend belum dihubungkan. " +
-      "Isi API_URL setelah Apps Script V2 selesai di-deploy."
-    );
+    shopGrid.innerHTML='<div class="empty-shop">API belum dikonfigurasi.</div>';
+    showFormError("Order V2 sudah terpasang, tetapi API backend belum dihubungkan.");
     return;
   }
-
   try{
-    const res = await fetch(API_URL + "?action=services", {
-      cache:"no-store"
-    });
-    const data = await res.json();
-
-    if(!data.ok) throw new Error(data.error || "Gagal mengambil layanan.");
-
-    services = Array.isArray(data.services) ? data.services : [];
-
-    const categories = [...new Set(
-      services.map(x => x.category).filter(Boolean)
-    )];
-
-    categoryEl.innerHTML =
-      '<option value="">Pilih kategori</option>' +
-      categories.map(c =>
-        `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`
-      ).join("");
-
-    serviceEl.innerHTML =
-      '<option value="">Pilih kategori dulu</option>';
-    serviceEl.disabled = true;
-
+    const res=await fetch(API_URL+"?action=services",{cache:"no-store"});
+    const data=await res.json();
+    if(!data.ok) throw new Error(data.error||"Gagal mengambil layanan.");
+    services=Array.isArray(data.services)?data.services:[];
+    renderFilterCategories();
+    renderCategoryStrip();
+    renderShop();
   }catch(err){
-    categoryEl.innerHTML =
-      '<option value="">Gagal memuat layanan</option>';
+    shopGrid.innerHTML='<div class="empty-shop">Gagal memuat layanan.</div>';
     showFormError(err.message);
   }
 }
 
-categoryEl.addEventListener("change", ()=>{
-  const category = categoryEl.value;
-  const list = services.filter(x => x.category === category);
+function productIcon(category,service){
+  const c=String(category||"").toLowerCase(),s=String(service||"").toLowerCase();
+  if(c.includes("ipad")) return "📱";
+  if(c.includes("mac")) return "💻";
+  if(s.includes("icloud")) return "☁️";
+  if(s.includes("software")) return "🛠️";
+  return "";
+}
 
-  serviceEl.innerHTML =
-    '<option value="">Pilih layanan</option>' +
-    list.map(x =>
-      `<option value="${escapeHtml(x.name)}" data-price="${x.price}">
-        ${escapeHtml(x.name)} — ${rupiah(x.price)}
-      </option>`
-    ).join("");
+function renderCategoryStrip(){
+  const cats=[...new Set(services.map(x=>String(x.category||"")).filter(Boolean))];
+  categoryStrip.innerHTML='<button type="button" class="cat-chip active" data-cat="">Semua</button>'+cats.map(c=>`<button type="button" class="cat-chip" data-cat="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join("");
+  categoryStrip.querySelectorAll(".cat-chip").forEach(btn=>btn.onclick=()=>{
+    categoryStrip.querySelectorAll(".cat-chip").forEach(x=>x.classList.remove("active"));
+    btn.classList.add("active");
+    activeCategory=btn.dataset.cat||"";
+    filterCategory.value=activeCategory;
+    renderShop();
+  });
+}
 
-  serviceEl.disabled = !list.length;
-});
+function renderShop(){
+  const q=(shopSearch.value||"").trim().toLowerCase();
+  let list=services.filter(x=>{
+    const hay=(String(x.name||"")+" "+String(x.category||"")+" "+serviceDescription(x)).toLowerCase();
+    return (!q||hay.includes(q)) && (!activeCategory||String(x.category||"")===activeCategory);
+  });
+  if(sortMode==="low") list.sort((a,b)=>(Number(a.price)||0)-(Number(b.price)||0));
+  if(sortMode==="high") list.sort((a,b)=>(Number(b.price)||0)-(Number(a.price)||0));
+  if(sortMode==="az") list.sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
+  if(!list.length){shopGrid.innerHTML='<div class="empty-shop"><div style="font-size:35px">🔎</div><b>Layanan tidak ditemukan</b><div style="margin-top:5px">Coba kata kunci atau filter lain.</div></div>';return;}
+  shopGrid.innerHTML=list.map(x=>`<article class="product-card" data-product="${services.indexOf(x)}"><div class="product-icon">${productIcon(x.category,x.name)}</div><div class="product-cat">${escapeHtml(x.category)}</div><div class="product-name">${escapeHtml(x.name)}</div><div class="product-meta"><span>⚡ Fast</span><span>🔒 Secure</span></div><div class="product-price">${rupiah(x.price)}</div><div style="display:grid;grid-template-columns:1fr 44px;gap:7px"><button type="button" class="add-cart" data-i="${services.indexOf(x)}">+ Tambah</button><button type="button" class="secondary-btn quick-btn" data-q="${services.indexOf(x)}" title="Lihat detail">•••</button></div></article>`).join("");
+  shopGrid.querySelectorAll(".add-cart").forEach(btn=>btn.onclick=(e)=>{e.stopPropagation();addToCart(services[Number(btn.dataset.i)],btn.closest(".product-card"));});
+  shopGrid.querySelectorAll(".quick-btn").forEach(btn=>btn.onclick=(e)=>{e.stopPropagation();openQuickView(services[Number(btn.dataset.q)]);});
+  shopGrid.querySelectorAll(".product-card").forEach(card=>card.onclick=()=>openQuickView(services[Number(card.dataset.product)]));
+}
+
+function renderFilterCategories(){
+  const cats=[...new Set(services.map(x=>String(x.category||"")).filter(Boolean))];
+  filterCategory.innerHTML='<option value="">Semua kategori</option>'+cats.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+  filterCategory.value=activeCategory;
+}
+
+function showToast(msg){const t=$("toast");t.textContent=msg;t.classList.remove("show");void t.offsetWidth;t.classList.add("show");clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>t.classList.remove("show"),1800);}
+function serviceDescription(item){
+  const raw=item.description??item.desc??item.details??item.detail??item.note??"";
+  if(String(raw).trim()) return String(raw).trim();
+  return `Layanan ${item.name||"iGet Sync"} untuk perangkat ${item.category||"Apple"}. Pesanan diproses melalui sistem iGet Sync dengan pembayaran QRIS dan status order realtime.`;
+}
+
+function openQuickView(item){
+  const q=$("quickView");
+  $("quickContent").innerHTML=`<div class="quick-icon">${productIcon(item.category,item.name)}</div><div class="product-cat">${escapeHtml(item.category||"Service")}</div><h2 style="margin:5px 0 0">${escapeHtml(item.name)}</h2><div class="quick-price">${rupiah(item.price)}</div><div class="quick-description"><div class="quick-description-title">Tentang Layanan</div><div class="quick-description-text">${escapeHtml(serviceDescription(item))}</div></div><div class="notice"><b>⚡ Layanan iGet Sync</b><div class="muted" style="margin-top:6px">Order online, pembayaran QRIS, dan status pembayaran realtime.</div></div><div class="quick-actions"><button id="quickAdd" class="primary" style="margin:0">+ Tambah ke Keranjang</button><button id="quickBuy" class="secondary-btn">Checkout Sekarang</button></div>`;
+  q.classList.add("open");
+  $("quickAdd").onclick=()=>{addToCart(item);q.classList.remove("open")};
+  $("quickBuy").onclick=()=>{addToCart(item);q.classList.remove("open");cartDrawer.classList.add("open");renderCart()};
+}
+function closeQuick(){$("quickView").classList.remove("open")}
+$("quickClose").onclick=closeQuick;$("quickOverlay").onclick=closeQuick;
+
+function addToCart(item,card){
+  cart.push({...item,cartId:Date.now()+"-"+Math.random()});
+  renderCart();
+  animateToCart(card);
+  showToast("✓ " + item.name + " ditambahkan");
+}
+function removeFromCart(id){cart=cart.filter(x=>x.cartId!==id);renderCart();}
+function renderCart(){
+  cartCount.textContent=cart.length;
+  cartItems.innerHTML=cart.length?cart.map(x=>`<div class="cart-item"><div class="cart-item-icon">${productIcon(x.category,x.name)}</div><div class="cart-item-info"><div class="cart-item-name">${escapeHtml(x.name)}</div><div class="cart-item-price">${rupiah(x.price)}</div></div><button class="cart-remove" data-r="${escapeHtml(x.cartId)}">Hapus</button></div>`).join(""):'<div class="center muted" style="padding:45px 10px"><div style="font-size:42px">🛒</div><div>Keranjang masih kosong</div></div>';
+  cartItems.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>removeFromCart(b.dataset.r));
+  cartTotal.textContent=rupiah(cart.reduce((s,x)=>s+(Number(x.price)||0),0));
+  cartCount.classList.remove("cart-pop");void cartCount.offsetWidth;cartCount.classList.add("cart-pop");
+  cartBtn.classList.remove("cart-bump");void cartBtn.offsetWidth;cartBtn.classList.add("cart-bump");
+  $("checkoutBtn").disabled=!cart.length;
+}
+function animateToCart(card){
+  const icon=card&&card.querySelector(".product-icon");if(!icon)return;
+  const s=icon.getBoundingClientRect(),t=cartBtn.getBoundingClientRect(),c=icon.cloneNode(true);
+  c.className="fly-product";c.style.left=s.left+"px";c.style.top=s.top+"px";c.style.width=s.width+"px";c.style.height=s.height+"px";
+  document.body.appendChild(c);
+  const dx=t.left+t.width/2-(s.left+s.width/2),dy=t.top+t.height/2-(s.top+s.height/2);
+  requestAnimationFrame(()=>{c.style.transition="transform .68s cubic-bezier(.2,.8,.2,1),opacity .68s ease";c.style.transform=`translate(${dx}px,${dy}px) scale(.16) rotate(12deg)`;c.style.opacity=".15";});
+  setTimeout(()=>c.remove(),700);
+}
+shopSearch.addEventListener("input",renderShop);
+filterBtn.onclick=()=>{filterPanel.classList.toggle("hidden");};
+filterCategory.onchange=()=>{activeCategory=filterCategory.value;renderShop();};
+filterSort.onchange=()=>{sortMode=filterSort.value;renderShop();};
+clearFilterBtn.onclick=()=>{activeCategory="";sortMode="default";filterCategory.value="";filterSort.value="default";shopSearch.value="";renderShop();};
+cartBtn.onclick=()=>{cartDrawer.classList.add("open");renderCart();};
+$("closeCartBtn").onclick=()=>cartDrawer.classList.remove("open");
+$("cartOverlay").onclick=()=>cartDrawer.classList.remove("open");
+$("checkoutBtn").onclick=()=>{
+  if(!cart.length)return;
+  $("shopCard").classList.add("hidden");$("checkoutCard").classList.remove("hidden");cartDrawer.classList.remove("open");renderCheckout();scrollTo({top:0,behavior:"smooth"});
+};
+$("backShopBtn").onclick=()=>{$("checkoutCard").classList.add("hidden");$("shopCard").classList.remove("hidden");scrollTo({top:0,behavior:"smooth"});};
+function renderCheckout(){
+  $("checkoutItems").innerHTML="<b>Pesanan kamu</b>"+cart.map(x=>`<div style="display:flex;justify-content:space-between;margin-top:8px"><span>${escapeHtml(x.name)}</span><b>${rupiah(x.price)}</b></div>`).join("")+`<div style="border-top:1px solid var(--line);margin-top:12px;padding-top:12px;display:flex;justify-content:space-between"><b>Total</b><b>${rupiah(cart.reduce((s,x)=>s+x.price,0))}</b></div>`;
+}
 
 createBtn.addEventListener("click", createOrder);
 
 async function createOrder(){
   hideFormError();
-
-  const category = categoryEl.value;
-  const service = serviceEl.value;
-  const name = $("name").value.trim();
-  const whatsapp = $("whatsapp").value.trim();
-  const email = $("email").value.trim();
-  const device = $("device").value.trim();
-  const serial = $("serial").value.trim();
-  const note = $("note").value.trim();
-  const paymentMethod = $("paymentMethod").value;
-
-  if(!apiReady()){
-    return showFormError(
-      "Backend belum dikonfigurasi. Isi API_URL terlebih dahulu."
-    );
-  }
-
-  if(!category) return showFormError("Pilih kategori.");
-  if(!service) return showFormError("Pilih layanan.");
-  if(!name) return showFormError("Nama wajib diisi.");
-  if(!whatsapp) return showFormError("WhatsApp wajib diisi.");
-  if(!device) return showFormError("Device wajib diisi.");
-
-  createBtn.disabled = true;
-  createBtn.textContent = "Membuat pesanan...";
-
+  if(!cart.length)return showFormError("Keranjang masih kosong.");
+  if(cart.length>1)return showFormError("Untuk saat ini satu checkout = satu layanan. Hapus layanan lain dari keranjang.");
+  const item=cart[0],name=$("name").value.trim(),whatsapp=$("whatsapp").value.trim(),email=$("email").value.trim(),device=$("device").value.trim(),serial=$("serial").value.trim(),note=$("note").value.trim(),paymentMethod=$("paymentMethod").value;
+  if(!apiReady())return showFormError("Backend belum dikonfigurasi.");
+  if(!name)return showFormError("Nama wajib diisi.");
+  if(!whatsapp)return showFormError("WhatsApp wajib diisi.");
+  if(!device)return showFormError("Device wajib diisi.");
+  createBtn.disabled=true;createBtn.textContent="Membuat pesanan...";
   try{
-    const response = await fetch(API_URL, {
-      method:"POST",
-      headers:{"Content-Type":"text/plain;charset=utf-8"},
-      body:JSON.stringify({
-        action:"createOrder",
-        category, service, name, whatsapp, email,
-        device, serial, note, paymentMethod
-      })
-    });
-
-    const data = await response.json();
-    if(!data.ok) throw new Error(data.error || "Gagal membuat pesanan.");
-
-    openOrder(data.order);
-
-  }catch(err){
-    showFormError(err.message);
-  }finally{
-    createBtn.disabled = false;
-    createBtn.textContent = "Buat Pesanan";
-  }
+    const response=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"createOrder",category:item.category,service:item.name,name,whatsapp,email,device,serial,note,paymentMethod})});
+    const data=await response.json();
+    if(!data.ok)throw new Error(data.error||"Gagal membuat pesanan.");
+    cart=[];renderCart();openOrder(data.order);
+  }catch(err){showFormError(err.message);}
+  finally{createBtn.disabled=false;createBtn.textContent="Lanjutkan Pembayaran";}
 }
 
 function openOrder(order){
   currentOrder = order;
-  $("formCard").classList.add("hidden");
+  $("shopCard").classList.add("hidden");
+  $("checkoutCard").classList.add("hidden");
   $("orderCard").classList.remove("hidden");
   renderOrder(order);
   startTimer(order.expiresAt);
@@ -547,6 +663,8 @@ function renderOrder(order){
     order.status || "WAITING_PAYMENT"
   ).toUpperCase();
 
+  updateTimeline(status);
+
   const badge = $("statusBadge");
   badge.textContent = status;
   badge.className = "badge";
@@ -558,6 +676,12 @@ function renderOrder(order){
   }else{
     badge.classList.add("status-wait");
   }
+
+  const cancelBtn=$("cancelOrderBtn");
+  const canCancel=["WAITING_PAYMENT","QR_READY"].includes(status);
+  cancelBtn.classList.toggle("hidden",!canCancel);
+  cancelBtn.disabled=false;
+  cancelBtn.textContent="Batalkan Order";
 
   const payment = order.payment || {};
   const paymentStatus = String(payment.status || "").toUpperCase();
@@ -629,6 +753,31 @@ function renderOrder(order){
      </div>`;
 }
 
+async function requestCancelOrder(){
+  if(!currentOrder)return;
+  const status=String(currentOrder.status||"WAITING_PAYMENT").toUpperCase();
+  if(["PAID","PROCESSING","COMPLETED","CANCELLED","EXPIRED"].includes(status)){
+    showToast("Order ini sudah tidak bisa dibatalkan.");
+    return;
+  }
+  if(!confirm("Batalkan order "+currentOrder.id+"?\n\nOrder yang dibatalkan tidak dapat dilanjutkan."))return;
+  const btn=$("cancelOrderBtn");
+  btn.disabled=true;btn.textContent="Membatalkan...";
+  try{
+    const response=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"cancelOrder",orderId:currentOrder.id})});
+    const data=await response.json();
+    if(!data.ok)throw new Error(data.error||"Gagal membatalkan order.");
+    showToast("Order berhasil dibatalkan");
+    if(data.order){currentOrder=data.order;renderOrder(data.order);}
+  }catch(err){
+    // Jangan pura-pura mengubah status lokal. Jika backend belum punya action cancelOrder,
+    // tampilkan pesan yang jelas agar order tetap aman.
+    showToast(err.message||"Gagal membatalkan order");
+  }finally{btn.disabled=false;btn.textContent="Batalkan Order";}
+}
+
+function updateTimeline(status){const steps=[...document.querySelectorAll("#orderTimeline .step")];const idx={WAITING_PAYMENT:1,QR_READY:1,PAID:2,PROCESSING:3,COMPLETED:4,CANCELLED:1,EXPIRED:1}[status]??1;steps.forEach((x,i)=>{x.classList.remove("done","active");if(status!=="CANCELLED"&&status!=="EXPIRED"&&i<idx)x.classList.add("done");if(i===idx)x.classList.add("active")});if(status==="PAID"||status==="PROCESSING"||status==="COMPLETED")steps[2].classList.add("done");if(status==="PROCESSING"||status==="COMPLETED")steps[3].classList.add("done");if(status==="COMPLETED")steps[4].classList.add("done");}
+
 function startTimer(expiresAt){
   if(timerInterval) clearInterval(timerInterval);
 
@@ -685,6 +834,9 @@ function escapeHtml(value){
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
 }
+
+$("cancelOrderBtn").onclick=requestCancelOrder;
+const savedTheme=localStorage.getItem("IGS_ORDER_THEME");if(savedTheme==="dark")document.body.classList.add("dark");function syncThemeIcon(){$("themeBtn").querySelector(".theme-symbol").textContent=document.body.classList.contains("dark")?"☀":"☾"}syncThemeIcon();$("themeBtn").onclick=()=>{document.body.classList.toggle("dark");localStorage.setItem("IGS_ORDER_THEME",document.body.classList.contains("dark")?"dark":"light");syncThemeIcon()};
 
 loadServices();
 </script>
