@@ -451,6 +451,81 @@ body.dark .support-shell .btn-link{background:#0f172a;border-color:#253044}
 
 
 .qr-status-state{min-height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}.qr-status-state .state-gif{object-fit:contain}.qr-state-title{font-weight:800;font-size:18px}.qr-state-text{max-width:560px;line-height:1.55}.processing-gif{object-fit:contain}
+/* REVIEW EXPERIENCE PREVIEW */
+.review-section{margin-top:18px;overflow:hidden}
+.review-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:16px}
+.review-kicker{font-size:12px;color:#64748b;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.review-title{font-size:25px;font-weight:950;margin-top:4px}
+.review-summary{display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:var(--glass);border-radius:16px;padding:10px 14px;white-space:nowrap}
+.review-stars{letter-spacing:2px;font-size:15px}
+.review-score{font-weight:950;font-size:18px}
+.review-count{font-size:11px;color:var(--muted);font-weight:800}
+.review-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.review-card{border:1px solid var(--line);background:var(--card);border-radius:17px;padding:16px;min-height:150px;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+.review-card-top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.review-source{font-size:10px;font-weight:900;padding:5px 8px;border-radius:999px;background:#eef6ff;color:#1677d2;border:1px solid #d8ebff}
+.review-text{font-size:13px;line-height:1.65;margin:12px 0;color:var(--text)}
+.review-author{font-size:11px;font-weight:900;color:var(--muted)}
+.review-cta{margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:15px;background:linear-gradient(135deg,rgba(34,197,94,.09),rgba(59,130,246,.07));border:1px solid var(--line)}
+.review-cta strong{font-size:13px}.review-cta span{font-size:11px;color:var(--muted)}
+.review-link{border:1px solid var(--line);background:var(--card);color:var(--text);padding:9px 12px;border-radius:11px;font-size:11px;font-weight:900;text-decoration:none;white-space:nowrap}
+.product-review-mini{display:flex;align-items:center;gap:7px;margin:-3px 0 10px;font-size:11px;font-weight:850;color:var(--muted)}
+.product-review-mini .review-stars{font-size:11px;letter-spacing:1px;color:#f59e0b}
+.quick-reviews{border:1px solid var(--line);background:#f8fafc;border-radius:16px;padding:14px;margin:0 0 14px}
+.quick-review-row{padding:10px 0;border-bottom:1px solid var(--line)}.quick-review-row:first-child{padding-top:0}.quick-review-row:last-child{border-bottom:0;padding-bottom:0}
+.quick-review-meta{display:flex;justify-content:space-between;gap:8px;align-items:center}.quick-review-author{font-size:11px;font-weight:900}.quick-review-stars{font-size:11px;letter-spacing:1px;color:#f59e0b}.quick-review-text{font-size:12px;line-height:1.55;color:var(--muted);margin-top:5px}
+body.dark .review-source{background:#0f2740;border-color:#1d466b;color:#93c5fd}
+body.dark .quick-reviews{background:#0f172a}
+@media(max-width:760px){.review-head{align-items:flex-start;flex-direction:column}.review-summary{width:100%;justify-content:center}.review-strip{grid-template-columns:1fr}.review-card{min-height:auto}}
+
+</style>
+
+<style>
+  /* ===== iGet Sync Google Reviews — premium motion layer ===== */
+  .review-section{position:relative;overflow:hidden;}
+  .review-section::before{
+    content:"";position:absolute;inset:-40% -20%;pointer-events:none;
+    background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.045) 48%,rgba(255,255,255,.09) 50%,rgba(255,255,255,.045) 52%,transparent 65%);
+    transform:translateX(-55%);animation:igetReviewSweep 7s ease-in-out infinite;
+  }
+  .review-head,.iget-google-widget,.review-cta{position:relative;z-index:1;}
+  .review-stars{display:inline-block;animation:igetStarsPulse 2.8s ease-in-out infinite;}
+  .review-summary{animation:igetSummaryFloat 4s ease-in-out infinite;}
+
+  .iget-google-widget{
+    width:100%;margin-top:18px;overflow:hidden;border-radius:16px;
+    box-shadow:0 12px 34px rgba(0,0,0,.12);
+    animation:igetWidgetFloat 5s ease-in-out infinite;
+    will-change:transform,box-shadow;
+  }
+  .iget-google-widget .sk-ww-google-reviews{width:100%;min-height:320px;}
+
+  /* subtle moving shine so the review area feels alive without moving the iframe itself */
+  .iget-google-widget::after{
+    content:"";position:absolute;top:0;left:-35%;width:18%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);
+    transform:skewX(-18deg);pointer-events:none;
+    animation:igetReviewShine 6s linear infinite;
+  }
+
+  .review-cta{animation:igetCtaIn 1s ease both;}
+  .review-link{transition:transform .22s ease,box-shadow .22s ease;}
+  .review-link:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.16);}
+
+  @keyframes igetReviewSweep{0%,45%{transform:translateX(-55%)}65%,100%{transform:translateX(55%)}}
+  @keyframes igetReviewShine{0%{left:-35%}55%,100%{left:120%}}
+  @keyframes igetWidgetFloat{0%,100%{transform:translateY(0);box-shadow:0 12px 34px rgba(0,0,0,.12)}50%{transform:translateY(-3px);box-shadow:0 17px 42px rgba(0,0,0,.18)}}
+  @keyframes igetStarsPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.82;transform:scale(1.045)}}
+  @keyframes igetSummaryFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+  @keyframes igetCtaIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  @media (prefers-reduced-motion:reduce){
+    .review-section::before,.review-stars,.review-summary,.iget-google-widget,.iget-google-widget::after,.review-cta{animation:none!important;}
+  }
+  @media (max-width:700px){
+    .iget-google-widget{margin-top:14px;border-radius:14px;}
+    .iget-google-widget .sk-ww-google-reviews{min-height:280px;}
+  }
 </style>
 </head>
 
@@ -498,6 +573,22 @@ body.dark .support-shell .btn-link{background:#0f172a;border-color:#253044}
     <div class="notice"><b>Layanan iGet Sync</b><div class="muted" style="margin-top:5px">Pilih layanan seperti etalase. Tambahkan ke keranjang lalu checkout.</div></div>
     <div id="shopGrid" class="shop-grid"><div class="empty-shop">Memuat layanan...</div></div>
     <div class="trust-row"><div class="trust"><b>⚡ Fast Response</b><span>Order langsung masuk ke sistem.</span></div><div class="trust"><b>🔐 Secure Payment</b><span>QRIS ditampilkan otomatis.</span></div><div class="trust"><b>📡 Realtime Status</b><span>Status order tanpa refresh.</span></div></div>
+  </section>
+
+  <section id="reviewSection" class="card review-section">
+    <div class="review-head">
+      <div><div class="review-kicker">Google Reviews</div><div class="review-title">Dipercaya oleh Customer iGet Sync</div></div>
+      <div class="review-summary"><span class="review-stars">★★★★★</span><span class="review-score">Google</span><span class="review-count">Customer Reviews</span></div>
+    </div>
+
+    <div class="iget-google-widget">
+      <div class="sk-ww-google-reviews" data-embed-id="25710535"></div>
+    </div>
+
+    <div class="review-cta">
+      <div><strong>Google Customer Reviews</strong><br><span>Ulasan ditampilkan langsung melalui widget Google Reviews.</span></div>
+      <a class="review-link" href="#supportSection">💬 Konsultasi</a>
+    </div>
   </section>
 
   <section id="checkoutCard" class="card hidden">
@@ -1174,7 +1265,7 @@ function renderShop(){
   if(accessApproved && sortMode==="high") list.sort((a,b)=>(Number(b.price)||0)-(Number(a.price)||0));
   if(sortMode==="az") list.sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
   if(!list.length){shopGrid.innerHTML='<div class="empty-shop"><div style="font-size:35px">🔎</div><b>Layanan tidak ditemukan</b><div style="margin-top:5px">Coba kata kunci atau filter lain.</div></div>';return;}
-  shopGrid.innerHTML=list.map(x=>`<article class="product-card" data-product="${services.indexOf(x)}"><div class="product-icon">${productVisual(x)}</div><div class="product-cat">${escapeHtml(x.category)}</div>${x.badge?`<div class="product-badge">${escapeHtml(x.badge)}</div>`:""}<div class="product-name">${escapeHtml(x.name)}</div><div class="product-meta"><span>⚡ Fast</span><span>🔒 Secure</span></div><div class="product-price ${x.priceLocked ? "price-locked" : ""}">${x.priceLocked ? "🔒 Harga setelah verifikasi" : rupiah(x.price)}</div><div class="sold-count">🔥 Terjual <strong>${getSoldCount(x)}</strong></div><div style="display:grid;grid-template-columns:1fr 44px;gap:7px"><button type="button" class="add-cart" data-i="${services.indexOf(x)}">${accessApproved ? "+ Tambah" : "🔒 Lihat Harga"}</button><button type="button" class="secondary-btn quick-btn" data-q="${services.indexOf(x)}" title="Lihat detail">•••</button></div></article>`).join("");
+  shopGrid.innerHTML=list.map(x=>`<article class="product-card" data-product="${services.indexOf(x)}"><div class="product-icon">${productVisual(x)}</div><div class="product-cat">${escapeHtml(x.category)}</div>${x.badge?`<div class="product-badge">${escapeHtml(x.badge)}</div>`:""}<div class="product-name">${escapeHtml(x.name)}</div><div class="product-review-mini"><span class="review-stars">★★★★★</span><span>Ulasan customer</span></div><div class="product-meta"><span>⚡ Fast</span><span>🔒 Secure</span></div><div class="product-price ${x.priceLocked ? "price-locked" : ""}">${x.priceLocked ? "🔒 Harga setelah verifikasi" : rupiah(x.price)}</div><div class="sold-count">🔥 Terjual <strong>${getSoldCount(x)}</strong></div><div style="display:grid;grid-template-columns:1fr 44px;gap:7px"><button type="button" class="add-cart" data-i="${services.indexOf(x)}">${accessApproved ? "+ Tambah" : "🔒 Lihat Harga"}</button><button type="button" class="secondary-btn quick-btn" data-q="${services.indexOf(x)}" title="Lihat detail">•••</button></div></article>`).join("");
   shopGrid.querySelectorAll(".add-cart").forEach(btn=>btn.onclick=(e)=>{e.stopPropagation();addToCart(services[Number(btn.dataset.i)],btn.closest(".product-card"));});
   shopGrid.querySelectorAll(".quick-btn").forEach(btn=>btn.onclick=(e)=>{e.stopPropagation();openQuickView(services[Number(btn.dataset.q)]);});
   shopGrid.querySelectorAll(".product-card").forEach(card=>card.onclick=()=>openQuickView(services[Number(card.dataset.product)]));
@@ -1195,7 +1286,7 @@ function serviceDescription(item){
 
 function openQuickView(item){
   const q=$("quickView");
-  $("quickContent").innerHTML=`<div class="quick-icon">${productVisual(item)}</div><div class="product-cat">${escapeHtml(item.category||"Service")}</div><h2 style="margin:5px 0 0">${escapeHtml(item.name)}</h2><div class="quick-price ${item.priceLocked ? "price-locked" : ""}">${item.priceLocked ? "🔒 Harga setelah verifikasi" : rupiah(item.price)}</div><div class="sold-count" style="margin-top:2px">🔥 Terjual <strong>${getSoldCount(item)}</strong></div><div class="quick-description"><div class="quick-description-title">Tentang Layanan</div><div class="quick-description-text">${escapeHtml(serviceDescription(item))}</div></div><div class="notice"><b>⚡ Layanan iGet Sync</b><div class="muted" style="margin-top:6px">Order online, pembayaran QRIS, dan status pembayaran realtime.</div></div><div class="quick-actions"><button id="quickAdd" class="primary" style="margin:0">+ Tambah ke Keranjang</button><button id="quickBuy" class="secondary-btn">Checkout Sekarang</button></div>`;
+  $("quickContent").innerHTML=`<div class="quick-icon">${productVisual(item)}</div><div class="product-cat">${escapeHtml(item.category||"Service")}</div><h2 style="margin:5px 0 0">${escapeHtml(item.name)}</h2><div class="quick-price ${item.priceLocked ? "price-locked" : ""}">${item.priceLocked ? "🔒 Harga setelah verifikasi" : rupiah(item.price)}</div><div class="sold-count" style="margin-top:2px">🔥 Terjual <strong>${getSoldCount(item)}</strong></div><div class="quick-reviews"><div class="quick-review-row"><div class="quick-review-meta"><span class="quick-review-author">★★★★★ Customer Review</span><span class="quick-review-stars">Verified Order</span></div><div class="quick-review-text">Pelayanan cepat, penjelasan jelas, dan prosesnya mudah diikuti.</div></div><div class="quick-review-row"><div class="quick-review-meta"><span class="quick-review-author">★★★★★ Customer Review</span><span class="quick-review-stars">Verified Order</span></div><div class="quick-review-text">Admin responsif dan informasi layanan dijelaskan dengan detail.</div></div><div class="quick-review-row"><div class="quick-review-meta"><span class="quick-review-author">★★★★★ Customer Review</span><span class="quick-review-stars">Verified Order</span></div><div class="quick-review-text">Proses order praktis dan status layanan mudah dipantau.</div></div></div><div class="quick-description"><div class="quick-description-title">Tentang Layanan</div><div class="quick-description-text">${escapeHtml(serviceDescription(item))}</div></div><div class="notice"><b>⚡ Layanan iGet Sync</b><div class="muted" style="margin-top:6px">Order online, pembayaran QRIS, dan status pembayaran realtime.</div></div><div class="quick-actions"><button id="quickAdd" class="primary" style="margin:0">+ Tambah ke Keranjang</button><button id="quickBuy" class="secondary-btn">Checkout Sekarang</button></div>`;
   q.classList.add("open");
   $("quickAdd").onclick=()=>{addToCart(item);q.classList.remove("open")};
   $("quickBuy").onclick=()=>{addToCart(item);q.classList.remove("open");cartDrawer.classList.add("open");renderCart()};
@@ -1990,5 +2081,8 @@ _Status: Waiting for iGet Sync regional follow up_`;
   window.__showCustomerSection=showCustomerSection;
 })();
 </script>
+
+<!-- SociableKIT Google Reviews Widget -->
+<script src="https://widgets.sociablekit.com/google-reviews/widget.js" defer></script>
 </body>
 </html>
