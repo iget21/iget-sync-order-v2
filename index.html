@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id">
+<html lang="id" lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -478,85 +478,102 @@ body.dark .review-source{background:#0f2740;border-color:#1d466b;color:#93c5fd}
 body.dark .quick-reviews{background:#0f172a}
 @media(max-width:760px){.review-head{align-items:flex-start;flex-direction:column}.review-summary{width:100%;justify-content:center}.review-strip{grid-template-columns:1fr}.review-card{min-height:auto}}
 
+
+  /* ===== iGet Sync Google Reviews + Language ===== */
+  .iget-google-widget-wrap{position:relative;width:100%;min-height:420px;overflow:hidden;border-radius:16px}
+  .iget-google-widget-wrap .sk-ww-google-reviews{width:100%;min-height:420px}
+  .language-switcher{display:flex;align-items:center;gap:5px;height:40px;padding:0 9px;border:1px solid var(--line);border-radius:12px;background:var(--glass);backdrop-filter:blur(12px);box-shadow:0 6px 18px rgba(15,23,42,.08);flex:0 0 auto}
+  .language-switcher .language-icon{font-size:14px;line-height:1}
+  .language-switcher select{border:0;outline:0;background:transparent;color:var(--text);font:700 11px/1 inherit;cursor:pointer;max-width:112px}
+  body.dark .language-switcher{background:rgba(15,23,42,.86);border-color:#253044}
+  body.dark .language-switcher select{color:#f8fafc}
+  @media(max-width:700px){
+    .language-switcher{height:38px;padding:0 7px}
+    .language-switcher select{max-width:92px;font-size:10px}
+    .iget-google-widget-wrap{min-height:390px}
+    .iget-google-widget-wrap .sk-ww-google-reviews{min-height:390px}
+  }
+
+
+  .review-link{cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:transform .18s ease,background .18s ease,border-color .18s ease}
+  .review-link:hover{transform:translateY(-1px)}
+
+
+/* ===== iGet Sync Paste-Only Input UX ===== */
+.igs-paste-only{
+  position:relative;
+}
+.igs-paste-only::after{
+  content:"📋 Paste only";
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  pointer-events:none;
+  font-size:10px;
+  font-weight:800;
+  opacity:.55;
+}
+.igs-paste-ok{
+  border-color:#22c55e !important;
+  box-shadow:0 0 0 3px rgba(34,197,94,.10) !important;
+}
+@media(max-width:700px){
+  .igs-paste-only::after{font-size:9px;right:9px}
+}
+
 </style>
-
-<style>
-  /* ===== iGet Sync Google Reviews — premium motion layer ===== */
-  .review-section{position:relative;overflow:hidden;}
-  .review-section::before{
-    content:"";position:absolute;inset:-40% -20%;pointer-events:none;
-    background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.045) 48%,rgba(255,255,255,.09) 50%,rgba(255,255,255,.045) 52%,transparent 65%);
-    transform:translateX(-55%);animation:igetReviewSweep 7s ease-in-out infinite;
-  }
-  .review-head,.iget-google-widget,.review-cta{position:relative;z-index:1;}
-  .review-stars{display:inline-block;animation:igetStarsPulse 2.8s ease-in-out infinite;}
-  .review-summary{animation:igetSummaryFloat 4s ease-in-out infinite;}
-
-  .iget-google-widget{
-    width:100%;margin-top:18px;overflow:hidden;border-radius:16px;
-    box-shadow:0 12px 34px rgba(0,0,0,.12);
-    animation:igetWidgetFloat 5s ease-in-out infinite;
-    will-change:transform,box-shadow;
-  }
-  .iget-google-widget .sk-ww-google-reviews{width:100%;min-height:320px;}
-
-  /* subtle moving shine so the review area feels alive without moving the iframe itself */
-  .iget-google-widget::after{
-    content:"";position:absolute;top:0;left:-35%;width:18%;height:100%;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);
-    transform:skewX(-18deg);pointer-events:none;
-    animation:igetReviewShine 6s linear infinite;
-  }
-
-  .review-cta{animation:igetCtaIn 1s ease both;}
-  .review-link{transition:transform .22s ease,box-shadow .22s ease;}
-  .review-link:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.16);}
-
-  @keyframes igetReviewSweep{0%,45%{transform:translateX(-55%)}65%,100%{transform:translateX(55%)}}
-  @keyframes igetReviewShine{0%{left:-35%}55%,100%{left:120%}}
-  @keyframes igetWidgetFloat{0%,100%{transform:translateY(0);box-shadow:0 12px 34px rgba(0,0,0,.12)}50%{transform:translateY(-3px);box-shadow:0 17px 42px rgba(0,0,0,.18)}}
-  @keyframes igetStarsPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.82;transform:scale(1.045)}}
-  @keyframes igetSummaryFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-  @keyframes igetCtaIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
-  @media (prefers-reduced-motion:reduce){
-    .review-section::before,.review-stars,.review-summary,.iget-google-widget,.iget-google-widget::after,.review-cta{animation:none!important;}
-  }
-  @media (max-width:700px){
-    .iget-google-widget{margin-top:14px;border-radius:14px;}
-    .iget-google-widget .sk-ww-google-reviews{min-height:280px;}
-  }
-</style>
+<script src="https://widgets.sociablekit.com/google-reviews/widget.js" defer></script>
 </head>
 
 <body>
 <div class="wrap">
   <header class="site-head">
     <div class="brand-wrap"><div class="brand-logo"><img src="logo-is.png" alt="iGet Sync" onerror="this.style.display='none';this.parentElement.textContent='IS';"></div><div><div class="brand">iGet Sync</div><div class="sub">Apple Tech Solutions</div></div></div>
+    <div class="language-switcher" title="Language">
+      <span class="language-icon" aria-hidden="true">🌐</span>
+      <select id="languageSelect" aria-label="Language" translate="no">
+        <option value="en">English</option>
+        <option value="id">Bahasa Indonesia</option>
+        <option value="ja">日本語</option>
+        <option value="ko">한국어</option>
+        <option value="zh-CN">简体中文</option>
+        <option value="zh-TW">繁體中文</option>
+        <option value="de">Deutsch</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+        <option value="pt">Português</option>
+        <option value="it">Italiano</option>
+        <option value="th">ไทย</option>
+        <option value="vi">Tiếng Việt</option>
+        <option value="ar">العربية</option>
+        <option value="ru">Русский</option>
+      </select>
+    </div>
     <div class="head-actions"><span class="live-pill"><i class="live-dot"></i> Support Online</span><div class="header-gif-wrap" title="iGet Sync"><img class="header-gif" src="./loading.gif?v=4" alt="iGet Sync" decoding="async" onerror="this.onerror=null;this.style.display='none';this.parentElement.classList.add('gif-missing');"></div><div class="social-links header-social"><a href="https://www.instagram.com/igetsync/" target="_blank" rel="noopener noreferrer" aria-label="Instagram iGet Sync">Instagram</a><a href="https://www.tiktok.com/@igetsync" target="_blank" rel="noopener noreferrer" aria-label="TikTok iGet Sync">TikTok</a></div><button id="themeBtn" class="icon-btn" type="button" title="Mode tampilan"><span class="theme-symbol">☾</span></button></div>
   </header>
-  <section class="hero"><div class="hero-row"><div><h1>Solusi Perangkat Apple, Lebih Praktis.</h1><p>Pilih layanan sesuai kebutuhan, lakukan checkout dengan mudah, dan pantau prosesnya secara realtime.</p><div class="hero-mini"><span>⚡ Proses cepat</span><span>🔒 Secure Order</span><span>🟢 Support Online</span></div></div><div class="live-pill" style="background:rgba(34,197,94,.12);border-color:rgba(134,239,172,.25);color:#bbf7d0"><i class="live-dot"></i> 24/7 Online</div></div></section>
+  <section class="hero"><div class="hero-row"><div><h1>Professional Apple Solutions, Made Simple.</h1><p>Choose the right service, complete checkout securely, and track your order in real time.</p><div class="hero-mini"><span>⚡ Fast Processing</span><span>🔒 Secure Order</span><span>🟢 Online Support</span></div></div><div class="live-pill" style="background:rgba(34,197,94,.12);border-color:rgba(134,239,172,.25);color:#bbf7d0"><i class="live-dot"></i> 24/7 Online</div></div></section>
 
 
   <div class="customer-nav" id="customerNav">
-    <button type="button" class="customer-nav-btn active" data-section="shopCard">🛒 Layanan</button>
+    <button type="button" class="customer-nav-btn active" data-section="shopCard">🛒 Services</button>
     <button type="button" class="customer-nav-btn" data-section="supportSection">🛠 Support</button>
     <button type="button" class="customer-nav-btn" data-section="trackingSection">📦 Tracking</button>
   </div>
 
   <section id="shopCard" class="card">
     <div class="market-head">
-      <div class="search"><span class="search-icon">⌕</span><input id="shopSearch" placeholder="Cari layanan..." autocomplete="off"></div>
+      <div class="search"><span class="search-icon">⌕</span><input id="shopSearch" placeholder="Search services..." autocomplete="off"></div>
       <button id="filterBtn" class="filter-btn" type="button">⚙️ <span>Filter</span></button>
       <button id="cartBtn" class="cart-btn" type="button" aria-label="Keranjang"><span id="cartVisual" class="cart-visual cart-emoji" aria-hidden="true">🛒</span><span id="cartCount" class="cart-count">0</span></button>
     </div>
     <div id="categoryStrip" class="category-strip"></div>
     <div id="accessPanel" class="access-panel">
       <div style="font-weight:900;font-size:15px">🔐 Akses harga layanan</div>
-      <div class="muted" style="font-size:12px;line-height:1.45;margin-top:5px">Masukkan nomor WhatsApp untuk meminta akses harga. Setelah admin menyetujui, harga akan terbuka otomatis.</div>
+      <div class="muted" style="font-size:12px;line-height:1.45;margin-top:5px">Enter your WhatsApp number to request service pricing access. Once approved by our team, pricing will be unlocked automatically.</div>
       <div class="access-row" style="margin-top:11px">
-        <div class="access-field"><label for="accessWhatsapp">WhatsApp</label><input id="accessWhatsapp" type="tel" inputmode="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"></div>
-        <button id="accessBtn" class="access-btn" type="button">Minta Akses Harga</button>
+        <div class="access-field"><label for="accessWhatsapp">WhatsApp</label><input id="accessWhatsapp" type="tel" inputmode="tel" placeholder="08xxxxxxxxxx" autocomplete="tel" class="igs-paste-only" data-igs-paste-only="true"></div>
+        <button id="accessBtn" class="access-btn" type="button">Request Pricing Access</button>
       </div>
       <div id="accessState" class="access-state hidden">
         <img id="accessGif" class="access-gif" src="./processing.gif?v=4" alt="Memproses akses" onerror="this.style.display='none'">
@@ -565,68 +582,78 @@ body.dark .quick-reviews{background:#0f172a}
     </div>
     <div id="filterPanel" class="filter-panel hidden">
       <div class="filter-row">
-        <div><label for="filterCategory">Kategori</label><select id="filterCategory"><option value="">Semua kategori</option></select></div>
-        <div><label for="filterSort">Urutkan</label><select id="filterSort"><option value="default">Rekomendasi</option><option value="low">Harga terendah</option><option value="high">Harga tertinggi</option><option value="az">Nama A–Z</option></select></div>
+        <div><label for="filterCategory">Category</label><select id="filterCategory"><option value="">Semua kategori</option></select></div>
+        <div><label for="filterSort">Sort By</label><select id="filterSort"><option value="default">Recommended</option><option value="low">Lowest Price</option><option value="high">Highest Price</option><option value="az">Name A–Z</option></select></div>
       </div>
-      <button id="clearFilterBtn" class="secondary-btn filter-clear" type="button">Reset Filter</button>
+      <button id="clearFilterBtn" class="secondary-btn filter-clear" type="button">Reset Filters</button>
     </div>
-    <div class="notice"><b>Layanan iGet Sync</b><div class="muted" style="margin-top:5px">Pilih layanan seperti etalase. Tambahkan ke keranjang lalu checkout.</div></div>
+    <div class="notice"><b>iGet Sync Services</b><div class="muted" style="margin-top:5px">Browse our services, add what you need to your cart, then proceed to checkout.</div></div>
     <div id="shopGrid" class="shop-grid"><div class="empty-shop">Memuat layanan...</div></div>
-    <div class="trust-row"><div class="trust"><b>⚡ Fast Response</b><span>Order langsung masuk ke sistem.</span></div><div class="trust"><b>🔐 Secure Payment</b><span>QRIS ditampilkan otomatis.</span></div><div class="trust"><b>📡 Realtime Status</b><span>Status order tanpa refresh.</span></div></div>
+    <div class="trust-row"><div class="trust"><b>⚡ Fast Response</b><span>Orders are sent directly to our system.</span></div><div class="trust"><b>🔐 Secure Payment</b><span>QRIS payment is displayed automatically.</span></div><div class="trust"><b>📡 Realtime Status</b><span>Order status updates without refreshing.</span></div></div>
   </section>
 
   <section id="reviewSection" class="card review-section">
-    <div class="review-head">
-      <div><div class="review-kicker">Google Reviews</div><div class="review-title">Dipercaya oleh Customer iGet Sync</div></div>
-      <div class="review-summary"><span class="review-stars">★★★★★</span><span class="review-score">Google</span><span class="review-count">Customer Reviews</span></div>
+  <div class="review-head">
+    <div>
+      <div class="review-kicker">Customer Reviews</div>
+      <div class="review-title">Trusted by iGet Sync Customers</div>
     </div>
+    <div class="review-summary">
+      <span class="review-stars">★★★★★</span>
+      <span class="review-score">Google</span>
+      <span class="review-count">Verified Customer Reviews</span>
+    </div>
+  </div>
 
-    <div class="iget-google-widget">
-      <div class="sk-ww-google-reviews" data-embed-id="25710535"></div>
-    </div>
+  <div class="iget-google-widget-wrap">
+    <div class="sk-ww-google-reviews" data-embed-id="25710535"></div>
+  </div>
 
-    <div class="review-cta">
-      <div><strong>Google Customer Reviews</strong><br><span>Ulasan ditampilkan langsung melalui widget Google Reviews.</span></div>
-      <a class="review-link" href="#supportSection">💬 Konsultasi</a>
+  <div class="review-cta">
+    <div>
+      <strong>Google Customer Reviews</strong><br>
+      <span>Reviews are displayed directly through the Google Reviews widget.</span>
     </div>
-  </section>
+    <a class="review-link" href="#supportSection">💬 Contact Support</a>
+  </div>
+</section>
 
   <section id="checkoutCard" class="card hidden">
-    <div class="order-head"><div><div class="muted">Checkout</div><div class="order-id">Data Customer</div></div>
-      <button id="backShopBtn" class="back-shop-btn" type="button" style="background:#f3f4f6">← Kembali</button></div>
+    <div class="order-head"><div><div class="muted">Checkout</div><div class="order-id">Customer Details</div></div>
+      <button id="backShopBtn" class="back-shop-btn" type="button" style="background:#f3f4f6">← Back</button></div>
     <div id="checkoutItems" class="notice" style="margin-top:18px"></div>
     <div class="grid">
-      <div class="field"><label>Nama</label><input id="name" placeholder="Nama kamu"></div>
-      <div class="field"><label>WhatsApp</label><input id="whatsapp" placeholder="08xxxxxxxxxx" inputmode="tel"></div>
+      <div class="field"><label>Nama</label><input id="name" placeholder="Your name" class="igs-paste-only" data-igs-paste-only="true"></div>
+      <div class="field"><label>WhatsApp</label><input id="whatsapp" placeholder="08xxxxxxxxxx" inputmode="tel" class="igs-paste-only" data-igs-paste-only="true"></div>
       <div class="field"><label>Email</label><input id="email" type="email" placeholder="opsional"></div>
-      <div class="field"><label>Device</label><input id="device" placeholder="Contoh: iPhone 13"></div>
-      <div class="field"><label>IMEI / Serial</label><input id="serial" placeholder="opsional"></div>
-      <div class="field"><label>Metode Pembayaran</label><select id="paymentMethod"><option value="QRIS">QRIS</option></select></div>
-      <div class="field full"><label>Catatan</label><textarea id="note" placeholder="Informasi tambahan (opsional)"></textarea></div>
+      <div class="field"><label>Device</label><input id="device" placeholder="Contoh: iPhone 13" class="igs-paste-only" data-igs-paste-only="true"></div>
+      <div class="field"><label>IMEI / Serial</label><input id="serial" placeholder="opsional" class="igs-paste-only" data-igs-paste-only="true"></div>
+      <div class="field"><label>Payment Method</label><select id="paymentMethod"><option value="QRIS">QRIS</option></select></div>
+      <div class="field full"><label>Notes</label><textarea id="note" placeholder="Additional information (optional)" class="igs-paste-only" data-igs-paste-only="true"></textarea></div>
     </div>
     <div id="formError" class="error hidden"></div>
-    <button id="createBtn" class="primary">Lanjutkan Pembayaran</button>
+    <button id="createBtn" class="primary">Continue to Payment</button>
   </section>
 
 
 
   <section id="trackingSection" class="card hidden">
-    <div class="order-head"><div><div class="muted">Realtime Tracking</div><div class="order-id">Lacak Perangkat</div></div><button id="trackingBackBtn" class="back-shop-btn" type="button" style="background:#f3f4f6">← Kembali</button></div>
-    <div class="notice" style="margin-top:18px"><b>Masukkan Serial Number</b><div class="muted" style="margin-top:5px">Status proses akan diperbarui otomatis tanpa refresh halaman.</div></div>
-    <div class="grid" style="margin-top:16px"><div class="field full"><label>Serial Number</label><input id="trackSn" placeholder="Masukkan Serial Number" autocomplete="off" style="text-transform:uppercase"></div></div>
+    <div class="order-head"><div><div class="muted">Real-Time Tracking</div><div class="order-id">Track Device</div></div><button id="trackingBackBtn" class="back-shop-btn" type="button" style="background:#f3f4f6">← Back</button></div>
+    <div class="notice" style="margin-top:18px"><b>Enter Serial Number</b><div class="muted" style="margin-top:5px">Process status updates automatically without refreshing the page.</div></div>
+    <div class="grid" style="margin-top:16px"><div class="field full"><label>Serial Number</label><input id="trackSn" placeholder="Enter Serial Number" autocomplete="off" style="text-transform:uppercase" class="igs-paste-only" data-igs-paste-only="true"></div></div>
     <div id="trackError" class="error hidden"></div>
-    <button id="trackBtn" class="primary">Lacak Sekarang</button>
+    <button id="trackBtn" class="primary">Track Now</button>
     <div id="trackingResult" class="hidden" style="margin-top:22px">
       <div class="detail"><div>Serial</div><div id="trackResSn">-</div><div>Device</div><div id="trackResDevice">-</div><div>Status</div><div id="trackResStatus">-</div></div>
       <div id="trackTimeline" class="timeline" style="margin-top:20px"></div>
-      <div class="center muted" style="margin-top:14px">🟢 Data diperbarui secara realtime</div>
+      <div class="center muted" style="margin-top:14px">🟢 Data updated in real time</div>
     </div>
   </section>
 
   <section id="supportSection" class="card hidden support-card">
     <div class="order-head">
       <div><div class="muted">Customer Support</div><div class="order-id">Technical Support Request</div></div>
-      <button id="supportBackBtn" class="back-shop-btn" type="button" style="background:#f3f4f6">← Kembali</button>
+      <button id="supportBackBtn" class="back-shop-btn" type="button" style="background:#f3f4f6">← Back</button>
     </div>
     <div class="support-shell">
       <div class="support-inner">
@@ -638,10 +665,10 @@ body.dark .quick-reviews{background:#0f172a}
       <form id="support_supportForm">
 
         <div class="input-group">
-          <label><span class="support-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2C7.58 2 4 5.58 4 10c0 5.5 8 12 8 12s8-6.5 8-12c0-4.42-3.58-8-8-8zm0 10.5A2.5 2.5 0 1 1 12 7a2.5 2.5 0 0 1 0 5.5z"/></svg></span> Contact Technical Kota</label>
+          <label><span class="support-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2C7.58 2 4 5.58 4 10c0 5.5 8 12 8 12s8-6.5 8-12c0-4.42-3.58-8-8-8zm0 10.5A2.5 2.5 0 1 1 12 7a2.5 2.5 0 0 1 0 5.5z"/></svg></span> Technical Support Location</label>
           <!-- Nilai value sengaja dipertahankan tidak di-translate agar data backend aman -->
           <select class="support-control" id="support_kota" required onchange="updateKategori()">
-            <option value="">-- Pilih Kota --</option>
+            <option value="">-- Select Location --</option>
             <option value="6283182014618|Jakarta|Software Service Only">Jakarta</option>
             <option value="6285161735426|Medan|Software & Sparepart Service">Medan</option>
             <option value="6283197022655|Lahat|Software & Sparepart Service">Lahat</option>
@@ -666,19 +693,19 @@ body.dark .quick-reviews{background:#0f172a}
 
         <div class="input-group">
           <label><span class="support-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z"/></svg></span> Nama Customer</label>
-          <input class="support-control" type="text" id="support_nama" placeholder="Masukkan nama lengkap" required>
+          <input class="support-control" type="text" id="support_nama" placeholder="Enter your full name" required>
         </div>
 
         <div class="input-group">
           <label><span class="support-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.6 2.5 4.7 4.4c-.7.7-.9 1.7-.5 2.6 2.1 5 5.8 8.7 10.8 10.8.9.4 1.9.2 2.6-.5l1.9-1.9-3.1-3.1-1.8 1.2c-1.8-.9-3.3-2.4-4.2-4.2l1.2-1.8-3-3z"/></svg></span> Nomor WhatsApp</label>
-          <input class="support-control" type="tel" id="support_wa" placeholder="Contoh: +6281234567890" required>
+          <input class="support-control" type="tel" id="support_wa" placeholder="e.g. +6281234567890" required>
         </div>
 
         <div class="row">
           <div class="input-group">
             <label><span class="support-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm1 3v12h6V6H7zm10 2h2v8h-2V8zm3 2h2v4h-2v-4z"/></svg></span> Jenis Device</label>
             <select class="support-control" id="support_device" required>
-              <option value="">Pilih device</option>
+              <option value="">Select device</option>
               <option value="iPhone">iPhone</option>
               <option value="iPad">iPad</option>
               <option value="MacBook">MacBook</option>
@@ -691,7 +718,7 @@ body.dark .quick-reviews{background:#0f172a}
 
           <div class="input-group">
             <label><span class="support-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm1 3v14h8V5H8zm4 16a1.2 1.2 0 1 0 0-2.4A1.2 1.2 0 0 0 12 21z"/></svg></span> Tipe Device</label>
-            <input class="support-control" type="text" id="support_tipe" placeholder="Contoh: 14 Pro / S24">
+            <input class="support-control" type="text" id="support_tipe" placeholder="e.g. 14 Pro / S24">
           </div>
         </div>
 
@@ -704,20 +731,20 @@ body.dark .quick-reviews{background:#0f172a}
           
           <div id="support_serialHelp" style="display:none;">
             <a href="https://www.tiktok.com/@igetsync/video/7603844744094977300?is_from_webapp=1&sender_device=pc&web_id=7637552900684350997" target="_blank" class="btn-link neu-out">
-              <span class="support-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 17a1.3 1.3 0 1 1 0-2.6A1.3 1.3 0 0 1 12 19zm1.4-5.2h-2.8v-.7c0-1.2.4-1.9 1.6-2.8.8-.6 1.1-.9 1.1-1.5 0-.7-.5-1.1-1.3-1.1-.9 0-1.5.5-1.7 1.4l-2.4-.5C8.2 6.9 9.7 5.8 12 5.8c2.4 0 4 1.2 4 3.2 0 1.4-.8 2.2-2 3.1-.5.4-.6.7-.6 1.2v.5z"/></svg></span> Tidak tahu Serial Number? Lihat Panduan
+              <span class="support-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 17a1.3 1.3 0 1 1 0-2.6A1.3 1.3 0 0 1 12 19zm1.4-5.2h-2.8v-.7c0-1.2.4-1.9 1.6-2.8.8-.6 1.1-.9 1.1-1.5 0-.7-.5-1.1-1.3-1.1-.9 0-1.5.5-1.7 1.4l-2.4-.5C8.2 6.9 9.7 5.8 12 5.8c2.4 0 4 1.2 4 3.2 0 1.4-.8 2.2-2 3.1-.5.4-.6.7-.6 1.2v.5z"/></svg></span> Don't know your Serial Number? View Guide
             </a>
           </div>
         </div>
 
         <div id="support_iphoneUnavailableOptions" class="radio-container neu-in" style="display:none;">
-          <label style="margin-top:0; margin-bottom:12px; font-size:14px; color: var(--primary);">Status Akses Akun</label>
+          <label style="margin-top:0; margin-bottom:12px; font-size:14px; color: var(--primary);">Account Access Status</label>
           <label class="radio-label">
-            <input type="radio" name="account_status" value="Masih ingat email, sandi, dan nomor HP">
+            <input type="radio" name="account_status" value="I still remember my email, password, and phone number">
             <span>Masih ingat email, sandi, & nomor HP</span>
           </label>
           <label class="radio-label">
-            <input type="radio" name="account_status" value="Tidak ingat sama sekali">
-            <span style="color: var(--danger);">Tidak ingat sama sekali</span>
+            <input type="radio" name="account_status" value="I don't remember any of them">
+            <span style="color: var(--danger);">I don't remember any of them</span>
           </label>
         </div>
 
@@ -1952,7 +1979,7 @@ ${serial}
 ⚠️ Support Request:
 ${kategori}
 
-🔐 Status Akses Akun:
+🔐 Account Access Status:
 ${accountStatus}
 
 🛠 Detail Kendala:
@@ -2082,7 +2109,319 @@ _Status: Waiting for iGet Sync regional follow up_`;
 })();
 </script>
 
-<!-- SociableKIT Google Reviews Widget -->
-<script src="https://widgets.sociablekit.com/google-reviews/widget.js" defer></script>
+<script>
+/* ===== iGet Sync Professional Language System ===== */
+const IGS_LANG_KEY = "IGS_LANGUAGE";
+
+const IGS_TRANSLATIONS = {
+  id: {
+    "Professional Apple Solutions, Made Simple.":"Solusi Apple Profesional, Lebih Sederhana.",
+    "Choose the right service, complete checkout securely, and track your order in real time.":"Pilih layanan yang tepat, selesaikan checkout dengan aman, dan lacak order secara realtime.",
+    "⚡ Fast Processing":"⚡ Proses Cepat","🟢 Online Support":"🟢 Support Online","🛒 Services":"🛒 Layanan",
+    "Search services...":"Cari layanan...","Service Pricing Access":"Akses Harga Layanan",
+    "Enter your WhatsApp number to request service pricing access. Once approved by our team, pricing will be unlocked automatically.":"Masukkan nomor WhatsApp untuk meminta akses harga layanan. Setelah disetujui tim kami, harga akan terbuka otomatis.",
+    "Request Pricing Access":"Minta Akses Harga","Category":"Kategori","All":"Semua","Sort By":"Urutkan",
+    "Recommended":"Rekomendasi","Lowest Price":"Harga Terendah","Highest Price":"Harga Tertinggi","Name A–Z":"Nama A–Z","Reset Filters":"Reset Filter",
+    "iGet Sync Services":"Layanan iGet Sync","Browse our services, add what you need to your cart, then proceed to checkout.":"Pilih layanan, tambahkan ke keranjang, lalu lanjutkan checkout.",
+    "Orders are sent directly to our system.":"Order langsung masuk ke sistem.","QRIS payment is displayed automatically.":"Pembayaran QRIS ditampilkan otomatis.","Order status updates without refreshing.":"Status order diperbarui tanpa refresh.",
+    "Trusted by iGet Sync Customers":"Dipercaya oleh Customer iGet Sync","Google Customer Reviews":"Google Customer Reviews",
+    "Reviews are displayed directly through the Google Reviews widget.":"Ulasan ditampilkan langsung melalui widget Google Reviews.","💬 Contact Support":"💬 Konsultasi",
+    "Customer Details":"Data Customer","← Back":"← Kembali","Name":"Nama","Your name":"Nama kamu","Payment Method":"Metode Pembayaran",
+    "Notes":"Catatan","Additional information (optional)":"Informasi tambahan (opsional)","Continue to Payment":"Lanjutkan Pembayaran",
+    "Real-Time Tracking":"Realtime Tracking","Track Device":"Lacak Perangkat","Enter Serial Number":"Masukkan Serial Number",
+    "Process status updates automatically without refreshing the page.":"Status proses akan diperbarui otomatis tanpa refresh halaman.","Track Now":"Lacak Sekarang",
+    "Technical Support Location":"Lokasi Technical Support","-- Select Location --":"-- Pilih Kota --","Select device":"Pilih device",
+    "Enter your full name":"Masukkan nama lengkap","e.g. +6281234567890":"Contoh: +6281234567890","e.g. 14 Pro / S24":"Contoh: 14 Pro / S24",
+    "Don't know your Serial Number? View Guide":"Tidak tahu Serial Number? Lihat Panduan","Account Access Status":"Status Akses Akun",
+    "I still remember my email, password, and phone number":"Masih ingat email, sandi, dan nomor HP","I don't remember any of them":"Tidak ingat sama sekali",
+    "Cancel Order":"Batalkan Order","Payment Received":"Pembayaran diterima","Process Completed":"Proses selesai",
+    "Order Cannot Continue":"Order tidak dapat dilanjutkan","Testing Checklist":"Checklist Pengujian",
+    "Backend is not configured.":"Backend belum dikonfigurasi.","Name is required.":"Nama wajib diisi.","WhatsApp is required.":"WhatsApp wajib diisi.",
+    "Device is required.":"Device wajib diisi.","Pricing access is not active. Please verify your WhatsApp number first.":"Akses harga belum aktif. Silakan verifikasi WhatsApp terlebih dahulu.",
+    "Tracking data not found.":"Data tracking tidak ditemukan.","Device data not found.":"Data perangkat tidak ditemukan.",
+    "Failed to retrieve tracking data.":"Gagal mengambil data tracking.","Your cart is empty":"Keranjang masih kosong","Opening WhatsApp...":"Membuka WhatsApp..."
+  },
+  ja: {"Services":"サービス","Support":"サポート","Tracking":"追跡","Filter":"フィルター","Category":"カテゴリー","All":"すべて","Sort By":"並べ替え","Recommended":"おすすめ","Lowest Price":"価格の安い順","Highest Price":"価格の高い順","Reset Filters":"リセット","Search services...":"サービスを検索…","Checkout":"チェックアウト","Customer Details":"お客様情報","Name":"お名前","Email":"メール","Payment Method":"支払い方法","Notes":"メモ","Continue to Payment":"支払いへ進む","Real-Time Tracking":"リアルタイム追跡","Track Device":"デバイスを追跡","Enter Serial Number":"シリアル番号を入力","Track Now":"今すぐ追跡","← Back":"← 戻る","Request Pricing Access":"料金アクセスを申請","Google Customer Reviews":"Google カスタマーレビュー","💬 Contact Support":"💬 サポートに連絡"},
+  ko: {"Services":"서비스","Support":"지원","Tracking":"추적","Filter":"필터","Category":"카테고리","All":"전체","Sort By":"정렬","Recommended":"추천","Lowest Price":"낮은 가격순","Highest Price":"높은 가격순","Reset Filters":"필터 초기화","Search services...":"서비스 검색…","Checkout":"결제","Customer Details":"고객 정보","Name":"이름","Email":"이메일","Payment Method":"결제 방법","Notes":"메모","Continue to Payment":"결제로 계속","Real-Time Tracking":"실시간 추적","Track Device":"기기 추적","Enter Serial Number":"일련번호 입력","Track Now":"지금 추적","← Back":"← 뒤로","Request Pricing Access":"가격 액세스 요청","Google Customer Reviews":"Google 고객 리뷰","💬 Contact Support":"💬 지원 문의"},
+  "zh-CN": {"Services":"服务","Support":"支持","Tracking":"追踪","Filter":"筛选","Category":"分类","All":"全部","Sort By":"排序","Recommended":"推荐","Lowest Price":"价格最低","Highest Price":"价格最高","Reset Filters":"重置筛选","Search services...":"搜索服务…","Checkout":"结账","Customer Details":"客户信息","Name":"姓名","Email":"邮箱","Payment Method":"付款方式","Notes":"备注","Continue to Payment":"继续付款","Real-Time Tracking":"实时追踪","Track Device":"追踪设备","Enter Serial Number":"输入序列号","Track Now":"立即追踪","← Back":"← 返回","Request Pricing Access":"申请价格访问","Google Customer Reviews":"Google 客户评价","💬 Contact Support":"💬 联系支持"},
+  "zh-TW": {"Services":"服務","Support":"支援","Tracking":"追蹤","Filter":"篩選","Category":"分類","All":"全部","Sort By":"排序","Recommended":"推薦","Lowest Price":"最低價格","Highest Price":"最高價格","Reset Filters":"重設篩選","Search services...":"搜尋服務…","Checkout":"結帳","Customer Details":"客戶資料","Name":"姓名","Email":"電子郵件","Payment Method":"付款方式","Notes":"備註","Continue to Payment":"繼續付款","Real-Time Tracking":"即時追蹤","Track Device":"追蹤裝置","Enter Serial Number":"輸入序號","Track Now":"立即追蹤","← Back":"← 返回","Request Pricing Access":"申請價格存取權限","Google Customer Reviews":"Google 客戶評論","💬 Contact Support":"💬 聯絡支援"},
+  de: {"Services":"Services","Support":"Support","Tracking":"Tracking","Filter":"Filter","Category":"Kategorie","All":"Alle","Sort By":"Sortieren nach","Recommended":"Empfohlen","Lowest Price":"Niedrigster Preis","Highest Price":"Höchster Preis","Reset Filters":"Filter zurücksetzen","Search services...":"Services suchen…","Checkout":"Kasse","Customer Details":"Kundendaten","Name":"Name","Email":"E-Mail","Payment Method":"Zahlungsmethode","Notes":"Notizen","Continue to Payment":"Weiter zur Zahlung","Real-Time Tracking":"Echtzeit-Tracking","Track Device":"Gerät verfolgen","Enter Serial Number":"Seriennummer eingeben","Track Now":"Jetzt verfolgen","← Back":"← Zurück","Request Pricing Access":"Preisanfrage senden","Google Customer Reviews":"Google Kundenbewertungen","💬 Contact Support":"💬 Support kontaktieren"},
+  fr: {"Services":"Services","Support":"Assistance","Tracking":"Suivi","Filter":"Filtrer","Category":"Catégorie","All":"Toutes","Sort By":"Trier par","Recommended":"Recommandé","Lowest Price":"Prix le plus bas","Highest Price":"Prix le plus élevé","Reset Filters":"Réinitialiser","Search services...":"Rechercher un service…","Checkout":"Paiement","Customer Details":"Informations client","Name":"Nom","Email":"E-mail","Payment Method":"Mode de paiement","Notes":"Notes","Continue to Payment":"Continuer vers le paiement","Real-Time Tracking":"Suivi en temps réel","Track Device":"Suivre l'appareil","Enter Serial Number":"Saisir le numéro de série","Track Now":"Suivre maintenant","← Back":"← Retour","Request Pricing Access":"Demander l'accès aux tarifs","Google Customer Reviews":"Avis clients Google","💬 Contact Support":"💬 Contacter le support"},
+  es: {"Services":"Servicios","Support":"Soporte","Tracking":"Seguimiento","Filter":"Filtrar","Category":"Categoría","All":"Todas","Sort By":"Ordenar por","Recommended":"Recomendado","Lowest Price":"Precio más bajo","Highest Price":"Precio más alto","Reset Filters":"Restablecer","Search services...":"Buscar servicios…","Checkout":"Pago","Customer Details":"Datos del cliente","Name":"Nombre","Email":"Correo electrónico","Payment Method":"Método de pago","Notes":"Notas","Continue to Payment":"Continuar al pago","Real-Time Tracking":"Seguimiento en tiempo real","Track Device":"Seguir dispositivo","Enter Serial Number":"Introducir número de serie","Track Now":"Seguir ahora","← Back":"← Atrás","Request Pricing Access":"Solicitar acceso a precios","Google Customer Reviews":"Opiniones de clientes de Google","💬 Contact Support":"💬 Contactar soporte"},
+  pt: {"Services":"Serviços","Support":"Suporte","Tracking":"Rastreamento","Filter":"Filtrar","Category":"Categoria","All":"Todas","Sort By":"Ordenar por","Recommended":"Recomendado","Lowest Price":"Menor preço","Highest Price":"Maior preço","Reset Filters":"Redefinir filtros","Search services...":"Pesquisar serviços…","Checkout":"Checkout","Customer Details":"Dados do cliente","Name":"Nome","Email":"E-mail","Payment Method":"Método de pagamento","Notes":"Observações","Continue to Payment":"Continuar para pagamento","Real-Time Tracking":"Rastreamento em tempo real","Track Device":"Rastrear dispositivo","Enter Serial Number":"Digite o número de série","Track Now":"Rastrear agora","← Back":"← Voltar","Request Pricing Access":"Solicitar acesso aos preços","Google Customer Reviews":"Avaliações de clientes do Google","💬 Contact Support":"💬 Falar com o suporte"},
+  it: {"Services":"Servizi","Support":"Supporto","Tracking":"Tracciamento","Filter":"Filtri","Category":"Categoria","All":"Tutte","Sort By":"Ordina per","Recommended":"Consigliato","Lowest Price":"Prezzo più basso","Highest Price":"Prezzo più alto","Reset Filters":"Reimposta filtri","Search services...":"Cerca servizi…","Checkout":"Checkout","Customer Details":"Dati cliente","Name":"Nome","Email":"E-mail","Payment Method":"Metodo di pagamento","Notes":"Note","Continue to Payment":"Continua al pagamento","Real-Time Tracking":"Monitoraggio in tempo reale","Track Device":"Traccia dispositivo","Enter Serial Number":"Inserisci numero di serie","Track Now":"Traccia ora","← Back":"← Indietro","Request Pricing Access":"Richiedi accesso ai prezzi","Google Customer Reviews":"Recensioni clienti Google","💬 Contact Support":"💬 Contatta il supporto"},
+  th: {"Services":"บริการ","Support":"การสนับสนุน","Tracking":"ติดตาม","Filter":"ตัวกรอง","Category":"หมวดหมู่","All":"ทั้งหมด","Sort By":"เรียงตาม","Recommended":"แนะนำ","Lowest Price":"ราคาต่ำสุด","Highest Price":"ราคาสูงสุด","Reset Filters":"รีเซ็ต","Search services...":"ค้นหาบริการ…","Checkout":"ชำระเงิน","Customer Details":"ข้อมูลลูกค้า","Name":"ชื่อ","Email":"อีเมล","Payment Method":"วิธีชำระเงิน","Notes":"หมายเหตุ","Continue to Payment":"ดำเนินการชำระเงิน","Real-Time Tracking":"ติดตามแบบเรียลไทม์","Track Device":"ติดตามอุปกรณ์","Enter Serial Number":"ป้อนหมายเลขซีเรียล","Track Now":"ติดตามทันที","← Back":"← กลับ","Request Pricing Access":"ขอเข้าถึงราคา","Google Customer Reviews":"รีวิวจากลูกค้า Google","💬 Contact Support":"💬 ติดต่อฝ่ายสนับสนุน"},
+  vi: {"Services":"Dịch vụ","Support":"Hỗ trợ","Tracking":"Theo dõi","Filter":"Bộ lọc","Category":"Danh mục","All":"Tất cả","Sort By":"Sắp xếp","Recommended":"Đề xuất","Lowest Price":"Giá thấp nhất","Highest Price":"Giá cao nhất","Reset Filters":"Đặt lại","Search services...":"Tìm kiếm dịch vụ…","Checkout":"Thanh toán","Customer Details":"Thông tin khách hàng","Name":"Tên","Email":"Email","Payment Method":"Phương thức thanh toán","Notes":"Ghi chú","Continue to Payment":"Tiếp tục thanh toán","Real-Time Tracking":"Theo dõi thời gian thực","Track Device":"Theo dõi thiết bị","Enter Serial Number":"Nhập số sê-ri","Track Now":"Theo dõi ngay","← Back":"← Quay lại","Request Pricing Access":"Yêu cầu quyền xem giá","Google Customer Reviews":"Đánh giá của khách hàng Google","💬 Contact Support":"💬 Liên hệ hỗ trợ"},
+  ar: {"Services":"الخدمات","Support":"الدعم","Tracking":"التتبع","Filter":"تصفية","Category":"الفئة","All":"الكل","Sort By":"ترتيب حسب","Recommended":"موصى به","Lowest Price":"الأقل سعراً","Highest Price":"الأعلى سعراً","Reset Filters":"إعادة ضبط","Search services...":"البحث عن الخدمات…","Checkout":"الدفع","Customer Details":"بيانات العميل","Name":"الاسم","Email":"البريد الإلكتروني","Payment Method":"طريقة الدفع","Notes":"ملاحظات","Continue to Payment":"المتابعة إلى الدفع","Real-Time Tracking":"تتبع فوري","Track Device":"تتبع الجهاز","Enter Serial Number":"أدخل الرقم التسلسلي","Track Now":"تتبع الآن","← Back":"← رجوع","Request Pricing Access":"طلب الوصول إلى الأسعار","Google Customer Reviews":"مراجعات عملاء Google","💬 Contact Support":"💬 التواصل مع الدعم"},
+  ru: {"Services":"Услуги","Support":"Поддержка","Tracking":"Отслеживание","Filter":"Фильтр","Category":"Категория","All":"Все","Sort By":"Сортировать","Recommended":"Рекомендуемые","Lowest Price":"Сначала дешёвые","Highest Price":"Сначала дорогие","Reset Filters":"Сбросить","Search services...":"Поиск услуг…","Checkout":"Оформление","Customer Details":"Данные клиента","Name":"Имя","Email":"Эл. почта","Payment Method":"Способ оплаты","Notes":"Примечания","Continue to Payment":"Перейти к оплате","Real-Time Tracking":"Отслеживание в реальном времени","Track Device":"Отследить устройство","Enter Serial Number":"Введите серийный номер","Track Now":"Отследить сейчас","← Back":"← Назад","Request Pricing Access":"Запросить доступ к ценам","Google Customer Reviews":"Отзывы клиентов Google","💬 Contact Support":"💬 Связаться с поддержкой"}
+};
+
+function igsDetectLanguage(){
+  const saved=localStorage.getItem(IGS_LANG_KEY);
+  if(saved && (saved==="en" || IGS_TRANSLATIONS[saved])) return saved;
+  const l=String(navigator.language||navigator.userLanguage||"en").toLowerCase();
+  if(l.startsWith("id")) return "id";
+  if(l.startsWith("ja")) return "ja";
+  if(l.startsWith("ko")) return "ko";
+  if(l.startsWith("zh-tw")||l.startsWith("zh-hant")) return "zh-TW";
+  if(l.startsWith("zh")) return "zh-CN";
+  if(l.startsWith("de")) return "de";
+  if(l.startsWith("fr")) return "fr";
+  if(l.startsWith("es")) return "es";
+  if(l.startsWith("pt")) return "pt";
+  if(l.startsWith("it")) return "it";
+  if(l.startsWith("th")) return "th";
+  if(l.startsWith("vi")) return "vi";
+  if(l.startsWith("ar")) return "ar";
+  if(l.startsWith("ru")) return "ru";
+  return "en";
+}
+let igsCurrentLanguage=igsDetectLanguage();
+
+function igsTranslateValue(v){
+  if(!v||igsCurrentLanguage==="en") return v;
+  const d=IGS_TRANSLATIONS[igsCurrentLanguage]||{};
+  if(d[v]!==undefined) return d[v];
+  let r=v;
+  Object.keys(d).sort((a,b)=>b.length-a.length).forEach(k=>{
+    if(r.includes(k)) r=r.split(k).join(d[k]);
+  });
+  return r;
+}
+function igsTranslateDom(){
+  if(igsCurrentLanguage==="en") return;
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+  const nodes=[]; let n;
+  while((n=walker.nextNode())){
+    const p=n.parentElement;
+    if(!p||!n.nodeValue.trim()||p.closest("script,style,noscript")) continue;
+    nodes.push(n);
+  }
+  nodes.forEach(node=>{
+    const original=node.nodeValue;
+    const translated=igsTranslateValue(original);
+    if(translated!==original) node.nodeValue=translated;
+  });
+  document.querySelectorAll("input[placeholder],textarea[placeholder]").forEach(el=>{
+    const base=el.getAttribute("data-igs-placeholder-base")||el.getAttribute("placeholder");
+    el.setAttribute("data-igs-placeholder-base",base);
+    el.placeholder=igsTranslateValue(base);
+  });
+  document.documentElement.lang=igsCurrentLanguage;
+}
+function igsInitLanguage(){
+  const select=document.getElementById("languageSelect");
+  if(select){
+    select.value=igsCurrentLanguage;
+    select.addEventListener("change",()=>{
+      localStorage.setItem(IGS_LANG_KEY,select.value);
+      location.reload();
+    });
+  }
+  if(igsCurrentLanguage!=="en"){
+    igsTranslateDom();
+    const observer=new MutationObserver(()=>igsTranslateDom());
+    observer.observe(document.body,{childList:true,subtree:true});
+  }
+  document.documentElement.lang=igsCurrentLanguage;
+}
+document.addEventListener("DOMContentLoaded",()=>{try{igsInitLanguage();}catch(e){console.warn("Language system:",e);}});
+</script>
+
+
+<script>
+/* ===== Google Reviews -> Customer Support CTA ===== */
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".review-link").forEach(function (link) {
+    link.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      if (typeof window.__showCustomerSection === "function") {
+        window.__showCustomerSection("supportSection");
+      } else {
+        const support = document.getElementById("supportSection");
+        if (support) {
+          document.querySelectorAll("#shopCard,#checkoutCard,#supportSection,#trackingSection,#orderCard")
+            .forEach(el => el.classList.add("hidden"));
+          support.classList.remove("hidden");
+          support.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    });
+  });
+});
+</script>
+
+
+<script>
+/* ===== iGet Sync Paste-Only Input Protection =====
+   This is UX/input protection, not cryptographic security.
+   Important: users can still inspect browser-delivered HTML/JS.
+*/
+(function(){
+  "use strict";
+
+  const PASTE_ONLY_SELECTORS = [
+    // Order / checkout
+    "#name",
+    "#whatsapp",
+    "#device",
+    "#imei",
+    "#serial",
+    "#note",
+
+    // Support / technical request
+    "#supportName",
+    "#supportWhatsapp",
+    "#supportDevice",
+    "#supportSerial",
+    "#supportNote",
+
+    // Tracking
+    "#trackSn",
+
+    // Pricing access
+    "#accessWhatsapp",
+
+    // Common fallback names used by older/newer form versions
+    'input[name="name"]',
+    'input[name="whatsapp"]',
+    'input[name="phone"]',
+    'input[name="device"]',
+    'input[name="imei"]',
+    'input[name="serial"]',
+    'textarea[name="note"]',
+    'textarea[name="message"]'
+  ];
+
+  function isEligible(el){
+    if(!el || !(el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement)) return false;
+    if(el.type === "hidden" || el.disabled || el.readOnly) return false;
+    if(el.dataset.igsAllowTyping === "true") return false;
+    return true;
+  }
+
+  function mark(el){
+    if(!isEligible(el) || el.dataset.igsPasteOnly === "true") return;
+    el.dataset.igsPasteOnly = "true";
+    el.classList.add("igs-paste-only");
+    el.setAttribute("inputmode", el.type === "tel" ? "numeric" : (el.type === "email" ? "email" : "text"));
+    el.setAttribute("autocomplete", "off");
+
+    // Block normal keyboard typing while preserving Ctrl/Cmd+V.
+    el.addEventListener("keydown", function(e){
+      const key = String(e.key || "").toLowerCase();
+      const pasteCombo = (e.ctrlKey || e.metaKey) && key === "v";
+      const navigation = [
+        "backspace","delete","arrowleft","arrowright","arrowup","arrowdown",
+        "home","end","tab","escape","enter"
+      ].includes(key);
+
+      if(pasteCombo || navigation) return;
+
+      // Allow browser shortcuts that don't insert text.
+      if(e.ctrlKey || e.metaKey || e.altKey) return;
+
+      e.preventDefault();
+    }, true);
+
+    // Block direct character insertion from beforeinput/input.
+    el.addEventListener("beforeinput", function(e){
+      const type = String(e.inputType || "");
+      if(type === "insertFromPaste" || type === "insertFromDrop" || type === "historyUndo" || type === "historyRedo") return;
+      if(type.startsWith("insert")) e.preventDefault();
+    }, true);
+
+    el.addEventListener("drop", function(e){
+      // Keep the requested "paste-only" behavior: drag/drop is not accepted.
+      e.preventDefault();
+    }, true);
+
+    el.addEventListener("paste", function(e){
+      // Allow paste and normalize the inserted value.
+      const text = (e.clipboardData || window.clipboardData)?.getData("text") || "";
+      if(!text) return;
+
+      e.preventDefault();
+
+      const start = el.selectionStart ?? el.value.length;
+      const end = el.selectionEnd ?? el.value.length;
+      const next = el.value.slice(0,start) + text + el.value.slice(end);
+
+      // Respect maxlength if present.
+      el.value = el.maxLength > 0 ? next.slice(0, el.maxLength) : next;
+
+      el.dispatchEvent(new Event("input", {bubbles:true}));
+      el.dispatchEvent(new Event("change", {bubbles:true}));
+
+      el.classList.add("igs-paste-ok");
+      clearTimeout(el.__igsPasteTimer);
+      el.__igsPasteTimer = setTimeout(()=>el.classList.remove("igs-paste-ok"), 1200);
+    }, true);
+  }
+
+  function scan(){
+    PASTE_ONLY_SELECTORS.forEach(sel=>{
+      try{ document.querySelectorAll(sel).forEach(mark); }catch(_){}
+    });
+  }
+
+  // Also catch dynamically-created checkout/support fields.
+  document.addEventListener("DOMContentLoaded", scan);
+  const observer = new MutationObserver(scan);
+  observer.observe(document.documentElement, {childList:true, subtree:true});
+
+  // Public helper in case a future form is added dynamically.
+  window.IGS_ENABLE_PASTE_ONLY = scan;
+})();
+</script>
+
+
+<script>
+/* ===== iGet Sync Anti-Inspect Deterrent =====
+   Browser source can never be made completely invisible.
+   This only discourages casual inspection/shortcut use.
+*/
+(function(){
+  "use strict";
+
+  // Right-click/context menu.
+  document.addEventListener("contextmenu", function(e){
+    e.preventDefault();
+  }, true);
+
+  // Common developer/source shortcuts.
+  document.addEventListener("keydown", function(e){
+    const k = String(e.key || "").toLowerCase();
+
+    const blocked =
+      k === "f12" ||
+      ((e.ctrlKey || e.metaKey) && e.shiftKey && ["i","j","c"].includes(k)) ||
+      ((e.ctrlKey || e.metaKey) && k === "u");
+
+    if(blocked){
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, true);
+
+  // Detect obvious docked DevTools resizing. We do not redirect or destroy
+  // the page; we only add a CSS class so the UI can be visually subdued.
+  let last = false;
+  function check(){
+    const threshold = 160;
+    const detected =
+      Math.abs(window.outerWidth - window.innerWidth) > threshold ||
+      Math.abs(window.outerHeight - window.innerHeight) > threshold;
+
+    if(detected !== last){
+      last = detected;
+      document.documentElement.classList.toggle("igs-devtools-open", detected);
+    }
+  }
+  setInterval(check, 1200);
+})();
+</script>
+
 </body>
 </html>
