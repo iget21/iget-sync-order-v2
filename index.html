@@ -8,6 +8,7 @@
 <link rel="apple-touch-icon" href="logo-is.png">
 <link rel="preload" as="image" href="./loading.gif?v=4">
 <link rel="preload" as="image" href="./processing.gif?v=4">
+<link rel="preload" as="image" href="./verified.gif?v=1">
 <link rel="preload" as="image" href="./success.gif?v=4">
 
 <style>
@@ -448,6 +449,8 @@ body.dark .support-shell .radio-container,
 body.dark .support-shell .btn-link{background:#0f172a;border-color:#253044}
 @media(max-width:700px){.support-shell .support-inner{padding:22px 16px}.support-shell .row{grid-template-columns:1fr}}
 
+
+.qr-status-state{min-height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}.qr-status-state .state-gif{object-fit:contain}.qr-state-title{font-weight:800;font-size:18px}.qr-state-text{max-width:560px;line-height:1.55}.processing-gif{object-fit:contain}
 </style>
 </head>
 
@@ -1012,9 +1015,8 @@ function lockCatalogUi(){
 async function tryRestoreAccess(){
   try{
     const res=await fetch(API_URL+"?action=privateServices&accessToken="+encodeURIComponent(accessToken),{cache:"no-store"});
-    const data=await res.json();
+    const data=await readApiJson(res,"Pemulihan akses harga");
     if(data.ok && data.authorized){
-      accessApproved=true;
       services=Array.isArray(data.services)?data.services.filter(isPublicCatalogService):[];
       renderFilterCategories();renderCategoryStrip();renderShop();
       $("accessPanel").classList.add("hidden");
@@ -1403,24 +1405,64 @@ function renderOrder(order){
   const paymentStatus = String(payment.status || "").toUpperCase();
   const qr = String(payment.qr || "");
 
-  if(["PAID","CANCELLED","EXPIRED","COMPLETED"].includes(status)){
+  if(status === "PAID"){
     $("qrBox").innerHTML =
-      `<div class="center">
-        <div style="font-size:34px">
-          ${status === "PAID" || status === "COMPLETED" ? "✓" : "×"}
-        </div>
-        <b>${status === "PAID" || status === "COMPLETED"
-          ? "Pembayaran diterima"
-          : "Order tidak dapat dilanjutkan"}</b>
+      `<div class="center qr-status-state">
+        <img class="state-gif" src="./verified.gif?v=1" alt="Pembayaran diterima" width="110" height="110" onerror="this.onerror=null;this.style.display='none';">
+        <div class="qr-state-title">Pembayaran diterima</div>
+        <div class="qr-state-text">Pembayaran sudah dikonfirmasi admin. Order masuk ke antrean pengerjaan.</div>
+      </div>`;
+
+    $("paymentNotice").innerHTML =
+      `<b>PAID</b>
+       <div class="muted" style="margin-top:5px">
+       Pembayaran sudah dikonfirmasi admin. Silakan tunggu proses pengerjaan.
+       </div>`;
+    return;
+  }
+
+  if(status === "PROCESSING"){
+    $("qrBox").innerHTML =
+      `<div class="center qr-status-state">
+        <img class="state-gif processing-gif" src="./processing.gif?v=4" alt="Sedang diproses" width="90" height="110" onerror="this.onerror=null;this.style.display='none';">
+        <div class="qr-state-title">Sedang diproses</div>
+        <div class="qr-state-text">Perangkat sedang dikerjakan oleh tim iGet Sync.</div>
+      </div>`;
+
+    $("paymentNotice").innerHTML =
+      `<b>PROCESSING</b>
+       <div class="muted" style="margin-top:5px">
+       Pembayaran sudah diterima dan perangkat sedang dalam proses pengerjaan.
+       </div>`;
+    return;
+  }
+
+  if(status === "COMPLETED"){
+    $("qrBox").innerHTML =
+      `<div class="center qr-status-state">
+        <img class="state-gif" src="./verified.gif?v=1" alt="Proses selesai" width="110" height="110" onerror="this.onerror=null;this.style.display='none';">
+        <div class="qr-state-title">Proses selesai</div>
+        <div class="qr-state-text">Perangkat telah selesai diproses dan siap digunakan.</div>
+      </div>`;
+
+    $("paymentNotice").innerHTML =
+      `<b>COMPLETED</b>
+       <div class="muted" style="margin-top:5px">
+       Proses pengerjaan telah selesai.
+       </div>`;
+    return;
+  }
+
+  if(status === "CANCELLED" || status === "EXPIRED"){
+    $("qrBox").innerHTML =
+      `<div class="center qr-status-state">
+        <div style="font-size:42px">×</div>
+        <b>Order tidak dapat dilanjutkan</b>
       </div>`;
 
     $("paymentNotice").innerHTML =
       `<b>${status}</b>
-       <div class="muted" style="margin-top:5px">
-       ${status === "PAID"
-         ? "Pembayaran sudah dikonfirmasi admin."
-         : "QRIS telah dinonaktifkan."}
-       </div>`;
+       <div class="muted" style="margin-top:5px">QRIS telah dinonaktifkan.</div>`;
     return;
   }
 
